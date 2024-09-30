@@ -12,10 +12,10 @@
     //Ruta de url
     //Ejemplo: http://localhost/website/
   
-    define('URL_PATH', 'http://localhost/eventor/');
-    define('URL_ADMIN_PATH', 'http://localhost/eventor/admin/'); 
+    define('URL_PATH', 'http://localhost/fundacause/');
+    define('URL_ADMIN_PATH', 'http://localhost/fundacause/admin/'); 
 
-    define('WEB_NAME', 'EVENTOR');
+    define('WEB_NAME', 'Fund A Cause');
 
     //DEFINICION DE LA ZONA HORARIA
     date_default_timezone_set('America/Costa_Rica');
