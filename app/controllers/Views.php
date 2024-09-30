@@ -39,14 +39,32 @@
 
         // CARGA DEL HOME
         public function home(){
-            $data = $this->getPageData('home','Tu organizador de eventos empresariales');
+            $data = $this->getPageData('home','Fondea tu sueño');
             $this->loadView('pages/home', $data); // se carga la vista necesaria
         }
 
         // CARGA DE REGISTRO
         public function signup(){
-            $data = $this->getPageData('signup','Registro dE usuario');
+            $data = $this->getPageData('signup','Registro De usuario');
             $this->loadView('pages/signup', $data); // se carga la vista necesaria
+        }
+
+        // CARGA DE LOGIN
+        public function login(){
+            $data = $this->getPageData('login','Iniciar Sesion');
+            $this->loadView('pages/login', $data); // se carga la vista necesaria
+        }
+
+        // CARGA DE profile
+        public function profile(){
+            $data = $this->getPageData('profile','Perfil de usuario');
+            $this->loadView('pages/profile', $data); // se carga la vista necesaria
+        }
+
+        // CARGA DE proyecto
+        public function project(){
+            $data = $this->getPageData('project','Crear un proyecto');
+            $this->loadView('pages/project', $data); // se carga la vista necesaria
         }
 
 
