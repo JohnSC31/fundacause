@@ -231,6 +231,35 @@ p,a{
     user-select: none!important;
 }
 
+.txt-center{
+    text-align: center;
+}
+
+.page-title{
+    margin: 2rem 0;
+}
+
+.page-title-center{
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* flex utilities */
+.flex{
+    display: flex;
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+.align-center{
+    justify-content: center;
+    align-items: center;
+}
+.flex-space{
+    justify-content: space-between;
+}
+
 /*                          BUTONS  SYLES ------------------------ /////// */
 .btn{
     text-decoration: none;
@@ -294,8 +323,10 @@ form .field{
     padding-top: 1.5rem;
 }
 form .field label{
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 1rem;
+    font-weight: bold;
+    margin-left: .5rem;
 }
 
 form .field input,
@@ -304,7 +335,7 @@ form .field textarea{
     padding: .5rem;
     font-size: 1.5rem;
     border-radius: var(--radius);
-    background-color: var(--GREY);
+    background-color: var(--WHITE);
     width: 100%;
     border: 2px solid var(--BLACK);
 }
@@ -335,10 +366,20 @@ form .col_2 > div{
 form .submit{
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 2rem 0 1rem 0;
+    justify-content: space-evenly;
+    padding: 2rem 0;
 }
 
+/* boton para mostrar y ocultar las passwords */
+button#showPassBtn{
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+    color: var(--BLACK);
+}
+button#showPassBtn:hover{
+    cursor: pointer;
+}
 /* ///////////////////------------------------CSS MODAL------------------------///////////// */
 div.modal_container{
     /* Debe ir display: none; */
@@ -508,100 +549,213 @@ footer div.rights{
 
 /*////////////////////// -------------------------- HOME --------------------------------------------- ///////////////////////*/
 
+.hero{
+    padding: 7rem 0;
+    background-color: var(--LIGHTGREEN);
+}
+
+.hero .hero-content {
+    max-width: 50%;
+    text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .hero .hero-content {
+        max-width: 80%;
+    }
+}
+
+
+/* search section */
+section.search{
+    padding: 5rem 0;
+}
+
+section.search .search-content input{
+    font-size: 2rem;
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--GREEN);
+    margin-right: 2rem;
+}
+
+section.search .search-content button{
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+    section.search .search-content{
+        flex-direction: column;
+    }
+
+    section.search .search-content input{
+        margin-right: 0;
+    }
+
+    section.search .search-content button{
+        margin-top: 2rem;
+    }
+}
+
+/* PROJECT LIST */
+section.project-list{
+    background-color: var(--GREY);
+    padding: 5rem 0;
+}
+
+section.project-list .filters{
+    align-items: center;
+    justify-content: end;
+}
+
+section.project-list .filters select, 
+section.project-list .filters input{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: .5rem;
+    background-color: transparent;
+    border: 2px solid var(--BLACK);
+    border-radius: var(--radius);
+    margin: 0 1rem;
+}
+
+section.project-list div.project-list-container{
+    /* padding: 2rem 0; */
+
+    /* list display */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Project */
+div.project{
+    border-radius: var(--radius);
+    border: 2px solid var(--BLACK);
+    overflow: hidden;
+    background-color: var(--WHITE);
+    margin-top: 2rem;
+    /* list display */
+    flex: 0 0 calc(25% - 1rem);
+}
+
+div.project:hover{
+    transition: all .3s ease;
+    border-color: transparent;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
+div.project .information{
+    padding: .5rem;
+}
+
+div.project .information p.title{
+   font-weight: bold;
+   margin-bottom: 1rem;
+}
+
+div.project .information span.categorie{
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    padding: .5rem;
+    border-radius: var(--radius);
+}
+
+div.project .information p.donated{
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--GREEN);
+}
+
+
 
 /*////////////////////// -------------------------- SIGNUP --------------------------------------------- ///////////////////////*/
-section.signup{
-   padding: 3rem 0;
-   background-color: var(--blue);
-   height: 90vh;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-}
-section.signup h1{
-    color: var(--white);
+body#signup{
+    background-color: var(--LIGHTGREEN);
 }
 
-div.signup_form {
-    background-color: var(--white);
-    border-radius: var(--radius);
+body#signup .signup-form-container{
+    background-color: var(--WHITE);
     padding: 2rem;
-    width: 30%;
+    border-radius: var(--radius);
+    width: 60%;
+    margin-bottom: 4rem;
 }
-div.signup_form form .field label{
-    color: var(--blue);
-}
-div.signup_form form .field input{
-   border: 2px solid var(--blue)
+
+body#signup .forgot-pass{
+    text-decoration: underline;
+    color: var(--GREEN);
+    text-align: center;
+    cursor: pointer;
 }
 
 /*  -----------RESPONSIVE SIGNUP FORM----------------*/
 @media only screen and (max-width: 1120px) {
-    div.signup_form{
+    body#signup .signup-form-container{
       width: 40%;
     }
 }
 @media only screen and (max-width: 768px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 50%;
     }
 }
 @media only screen and (max-width: 568px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 80%;
     }
 }
 @media only screen and (max-width: 420px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 95%;
     }
 }
 
 /*////////////////////// -------------------------- LOGIN --------------------------------------------- ///////////////////////*/
-div.modal_login{
-    width: 30%;
-    padding: 3rem;
-    background-color: var(--blue)!important;
+body#login .login-form-container{
+    background-color: var(--LIGHTGREEN);
+    padding: 3rem 5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--GREEN);
+    width: 35%;
+    margin-bottom: 4rem;
 }
-  /* color para el modal login que es azul */
-  div.modal_login div.modal_header a.close_modal{ 
-    color: var(--white)!important;
-  }
+
+body#login .forgot-pass{
+    text-decoration: underline;
+    color: var(--BLACK);
+    text-align: center;
+    cursor: pointer;
+}
+
+/*  -----------RESPONSIVE SIGNUP FORM----------------*/
 @media only screen and (max-width: 1120px) {
-    div.modal_login{
-      width: 40%;
+    body#login .login-form-container{
+      width: 45%;
     }
 }
 @media only screen and (max-width: 768px) {
-    div.modal_login{
-        width: 50%;
+    body#login .login-form-container{
+        width: 60%;
     }
 }
 @media only screen and (max-width: 568px) {
-    div.modal_login{
-        width: 80%;
+    body#login .login-form-container{
+        width: 85%;
     }
 }
 @media only screen and (max-width: 420px) {
-    div.modal_login{
+    body#login .login-form-container{
         width: 95%;
     }
-}
-div.modal_login h2{
-    text-align: center;
-    color: var(--white);
-}
-div.modal_login form .field label{
-    color: var(--white);
-}
-div.modal_login form .field input{
-   border: 2px solid var(--white);
-   color: var(--white);
-}
-div.modal_login p.register{
-    color: var(--white);
-}
-div.modal_login p.register a{
-    color: var(--yellow);
-    font-weight: bold;
 }
