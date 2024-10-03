@@ -1,6 +1,6 @@
 
 <div class="login-container flex-col align-center">
-    <h1 class="page-title-center">Inciar sesión</h1>
+    <h1 class="page-title-center">Iniciar sesión</h1>
 
     <div class="login-form-container">
         <form action="" method="post" id="login_form">
@@ -19,8 +19,8 @@
             </div>
             
             <div class="submit">
-                <input type="submit" class="btn btn-green" value="Iniciar sesión">
-                <a href="<?php echo URL_PATH; ?>signup" class="btn btn-black">Registrarme</a>
+                <input type="submit" class="btn btn-green" value='Iniciar sesión'>
+                <a href="<?php echo URL_PATH; ?>signup" class="btn btn-black"> <i class="fa-solid fa-user-plus"></i> Registrarme</a>
             </div>
 
             <p class="forgot-pass">He olvidado mi contraseña</p>

@@ -625,7 +625,7 @@ section.project-list .filters input{
     margin: 0 1rem;
 }
 
-section.project-list div.project-list-container{
+div.project-list-container{
     /* padding: 2rem 0; */
 
     /* list display */
@@ -643,7 +643,30 @@ div.project{
     margin-top: 2rem;
     /* list display */
     flex: 0 0 calc(25% - 1rem);
+    cursor: pointer;
 }
+
+@media only screen and (max-width: 1120px) {
+    body#home div.project{
+        flex: 0 0 calc(25% - 1rem);
+    }
+}
+@media only screen and (max-width: 768px) {
+    body#home div.project{
+        flex: 0 0 calc(33% - 1rem);
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#home div.project{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 420px) {
+    body#home div.project{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
 
 div.project:hover{
     transition: all .3s ease;
@@ -758,4 +781,256 @@ body#login .forgot-pass{
     body#login .login-form-container{
         width: 95%;
     }
+}
+
+
+/*////////////////////// -------------------------- NEW PROJECT  --------------------------------------------- ///////////////////////*/
+body#project .new-project-form-container{
+    background-color: var(--LIGHTGREEN);
+    padding: 3rem 5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--BLACK);
+    width: 50%;
+    margin-bottom: 5rem;
+}
+/*  -----------RESPONSIVE SIGNUP FORM----------------*/
+@media only screen and (max-width: 1120px) {
+    body#project .new-project-form-container{
+      width: 60%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    body#project .new-project-form-container{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#project .new-project-form-container{
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    body#project .new-project-form-container{
+        width: 95%;
+    }
+}
+
+/* ------------------------------ PROFILE ----------------------- */
+body#profile .profile-content{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0;
+}
+
+body#profile .profile-content h3{
+    font-size: 2rem;
+}
+
+body#profile .profile-content .profile-sidebar{
+    flex: 0 0 calc(25% - 1rem);
+}
+
+body#profile .profile-content .profile-main{
+    flex: 0 0 calc(75% - 1rem);
+}
+
+@media only screen and (max-width: 1120px) {
+
+    body#profile .profile-content .profile-sidebar{
+        flex: 0 0 calc(33% - 1rem);
+    }
+    
+    body#profile .profile-content .profile-main{
+        flex: 0 0 calc(66% - 1rem);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    
+    body#profile .profile-content{
+        flex-direction: column;
+    }
+
+    body#profile .profile-content .profile-sidebar{
+        flex: 0 0 100%;
+    }
+    
+    body#profile .profile-content .profile-main{
+        flex: 0 0 100%;
+        margin-top: 2rem;
+    }
+}
+
+
+/* ---- USER ------------ */
+body#profile .profile-sidebar .user{
+    padding: 1rem;
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+}
+
+body#profile .profile-sidebar .user p.icon{
+    font-size: 5rem;
+}
+
+body#profile .profile-sidebar .user .user-info{
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+}
+body#profile .profile-sidebar .user .name{
+    font-size: 1.8rem;
+}
+
+body#profile .profile-sidebar .user .user-action{
+    padding: 1rem 0;
+}
+
+/* ---- DONATION HISTORY ------------ */
+body#profile .profile-sidebar .donation-history{
+    padding: 1rem;
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    margin-top: 2rem;
+}
+
+body#profile .profile-sidebar .donation{
+    padding: 1rem 0;
+    border-top: 1px solid var(--BLACK);
+}
+body#profile .profile-sidebar .donation:first-of-type{
+    padding: 1rem 0;
+    border-color: transparent;
+}
+body#profile .profile-sidebar .donation .donation-amount{
+    font-weight: bold;
+}
+
+
+/* ---- WALLET ------------ */
+body#profile .profile-main .wallet{
+    border: 2px solid var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 2rem;
+}
+
+body#profile .profile-main .wallet-amount{
+    font-size: 5rem;
+    color: var(--GREEN);
+}
+
+body#profile .profile-main .load-wallet-container input{
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    padding: .5rem;
+    border: none;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+/* ---- PROJECTS ------------ */
+body#profile .profile-main .my-project-container{
+    padding: 2rem;
+}
+
+body#profile div.project{
+    /* list display */
+    flex: 0 0 calc(33% - 1rem);
+}
+
+@media only screen and (max-width: 768px) {
+    body#profile div.project{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#profile div.project{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
+
+
+/* -------------- MODAL DONATE PROJECT ------------------------- */
+div.modal-donate-project{
+    width: 50%;
+    padding: 3rem;
+}
+
+@media only screen and (max-width: 1120px) {
+    div.modal-donate-project{
+      width: 60%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    div.modal-donate-project{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 568px) {
+    div.modal-donate-project{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    div.modal-donate-project{
+        width: 95%;
+    }
+}
+
+div.modal-donate-project img{
+    border-radius: var(--radius);
+}
+
+div.modal-donate-project .information{
+    padding: .5rem;
+}
+
+div.modal-donate-project .information p.title{
+   font-weight: bold;
+   margin-bottom: 1rem;
+}
+
+div.modal-donate-project .information .info-banner{
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
+}
+
+div.modal-donate-project .information p.description{
+    margin: 2rem 0;
+}
+
+
+div.modal-donate-project .information p.donated{
+    text-align: center;
+    font-size: 5rem;
+    font-weight: bold;
+    color: var(--GREEN);
+}
+
+div.modal-donate-project div.user-wallet{
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 1rem;
+}
+
+div.modal-donate-project div.user-wallet .balance{
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 1rem;
+}
+
+div.modal-donate-project div.user-wallet input{
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    font-size: 1.5rem;
+    border: none;
+    margin-bottom: 2rem;
+    text-align: center;
 }

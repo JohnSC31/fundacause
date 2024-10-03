@@ -4,7 +4,7 @@
 	    die('Invalid Request');
     }
 
-    require_once 'Db.php';
+    // require_once 'Db.php';
 
 
     class Ajax {
@@ -14,7 +14,7 @@
         private $db;
 
         public function __construct(){
-            $this->db = new Db;
+            // $this->db = new Db;
             $this->ajaxMethod = isset($_POST['ajaxMethod']) ? $_POST['ajaxMethod'] : NULL ;
             unset($_POST['ajaxMethod']);
 
@@ -39,10 +39,10 @@
             echo json_encode($result);
         }
 
-
-        // Metodo de prueba
-        private function foo($data){
-            $this->ajaxRequestResult(true, $data['message']);
+        // Metodo para la carga de los modals
+        private function loadModal($data){
+            require_once '../config.php';
+            require_once '../views/modals/'. $data['modal'] . '.php';
         }
 
 

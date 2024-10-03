@@ -20,16 +20,16 @@
 <section class="project-list">
     <div class="project-list-content container">
         <div class="filters flex">
-            <select name="" id="">
+            <select name="" id="search-categoria">
                 <option value="">Categoría</option>
             </select>
 
-            <input type="date">
+            <input type="date" id="search-date">
         </div>
 
         <div class="project-list-container">
             <?php for($i = 1; $i <= 8; $i++): ?>
-                <div class="project">
+                <div class="project" data-modal="donate-project">
                     <div class="img">
                         <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
                     </div>
