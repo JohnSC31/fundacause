@@ -38,7 +38,7 @@
                 </a>
                 <nav class="navigation">
                     <ul>
-                        <?php if(!isset($_SESSION['CLIENT']['SESSION']) && FALSE){ ?>
+                        <?php if(!isset($_SESSION['CLIENT']['SESSION'])){ ?>
                             <!-- BOTONES CUANDO NO HAY SESION -->
                             <li><a href="<?php echo URL_PATH; ?>signup" class="btn btn-lightgreen"><i class="fa-solid fa-user-plus"></i> <span class="hide_medium"> Registro </span></a></li>
                             <li><a href="<?php echo URL_PATH; ?>login" class="btn btn-black"><i class="fa-solid fa-right-to-bracket"></i> <span class="hide_medium"> Iniciar Sesión </span></a></li>

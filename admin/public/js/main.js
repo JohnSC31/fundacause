@@ -10,25 +10,22 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
 
       //LOGIN
       $("body").on("submit", "form#admin_login", loginAdmin);
+      //LOGOUT
+      $("body").on("click", "[data-admin-logout]", logoutAdmin);
 
       // APERTURA DE LOS MODALS
       $("body").on("click", "[data-modal]", openModal);
       $("body").on("click", "[close-modal]", closeModal);
 
       // NAVEGACION DE ADMINISTRACION
+      adminNavigation($('[data-admin-nav="stats"]'));
+
       $("body").on("click", "[data-admin-nav]", function(e){
         e.stopPropagation();
         adminNavigation(e.currentTarget);
       });
 
-      //LOGOUT
-      $("body").on("click", "[data-admin-logout]", logoutAdmin);
-
-      // carrusel de imagenes del producto
-      $("body").on("click", "[data-carrousel-pass]", function(e){
-        e.stopPropagation();
-        changeCarrouselImage(e.currentTarget);
-      });
+      
 
       
       
@@ -279,15 +276,6 @@ function adminNavigation(option){
   $('div#dashboard_container div.'+ $(option).attr("data-admin-nav") + '_container').css('display', 'block');
 
   // ACCIONES PARA LAS SECCIONES
-  if($(option).attr("data-admin-nav") === 'users'){
-
-    if ( ! $.fn.DataTable.isDataTable('#users-table') ) {
-      initDataTable('users', 'loadDataTableSells');
-    }else{
-      refreshDataTables('users'); // recarga la tabla
-    }
-    
-  }
 
 }
 
