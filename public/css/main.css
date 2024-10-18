@@ -100,13 +100,15 @@ textarea {
   
 :root{
     /* colores principales */
-    --black: #080708;
-    --blue: #3772FF;
-    --red: #DF2935;
-    --yellow: #FDCA40;
-    --green: #9FBB73;
-    --grey: #E6E8E6;
-    --white: #ffffff;
+
+    /* PALETA DE COLORES */
+    --LIGHTGREEN: #D1FDD6;
+    --GREEN: #A1E79F;
+    --GREY: #E9ECEF;
+    --BLACK:#151E26;
+    /* OTROS COLORES */
+    --RED: #DF2935;
+    --WHITE: #ffffff;
 
     /* radius objects */
     --radius: 2rem;
@@ -229,7 +231,36 @@ p,a{
     user-select: none!important;
 }
 
-/* ////////// ------------------- BOTTOMS SYLES ------------------------ /////// */
+.txt-center{
+    text-align: center;
+}
+
+.page-title{
+    margin: 2rem 0;
+}
+
+.page-title-center{
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* flex utilities */
+.flex{
+    display: flex;
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+.align-center{
+    justify-content: center;
+    align-items: center;
+}
+.flex-space{
+    justify-content: space-between;
+}
+
+/*                          BUTONS  SYLES ------------------------ /////// */
 .btn{
     text-decoration: none;
     font-size: 1.5rem;
@@ -243,58 +274,59 @@ p,a{
     border-color: transparent;
 }
 
-/* YELLOW BUTTOM */
-.btn_yellow{
-    color: var(--white);
-    background-color: var(--yellow);
+/* LIGHTGREEN BUTTOM */
+.btn-lightgreen{
+    color: var(--BLACK);
+    background-color: var(--LIGHTGREEN);
 }
-.btn_yellow:hover{
-    color: var(--yellow);
-    background-color: var(--white);
-    border-color: var(--yellow);
-}
-
-/* BLUE BUTTOM*/
-.btn_blue{
-    color: var(--white);
-    background-color: var(--blue);
-}
-.btn_blue:hover{
-    color: var(--blue);
-    background-color: var(--white);
-    border-color: var(--blue);
+.btn-lightgreen:hover{
+    color: var(--LIGHTGREEN);
+    background-color: var(--BLACK);
+    border-color: var(--LIGHTGREEN);
 }
 
-/* WHITE BUTTOM */
-.btn_white{
-    color: var(--blue);
-    background-color: var(--white);
+/* GREEN BUTTOM */
+.btn-green{
+    color: var(--BLACK);
+    background-color: var(--GREEN);
 }
-.btn_white:hover{
-    color: var(--white);
-    background-color: var(--blue);
-    border-color: var(--white);
+.btn-green:hover{
+    color: var(--GREEN);
+    background-color: var(--BLACK);
+    border-color: var(--GREEN);
 }
 
 /* BLACK BUTTOM */
-.btn_black{
-    color: var(--white);
-    background-color: var(--black);
+.btn-black{
+    color: var(--WHITE);
+    background-color: var(--BLACK);
 }
-.btn_black:hover{
-    color: var(--black);
-    background-color: var(--white);
-    border-color: var(--black);
+.btn-black:hover{
+    color: var(--BLACK);
+    background-color: var(--WHITE);
+    border-color: var(--BLACK);
 }
 
+/* GREY BUTTOM */
+.btn-grey{
+    color: var(--BLACK);
+    background-color: var(--GREY);
+}
+.btn-grey:hover{
+    color: var(--GREY);
+    background-color: var(--BLACK);
+    border-color: var(--GREY);
+}
 
 /* ------------------ GENERAL FORMS STYLES ------------------------------ */
 form .field{
     padding-top: 1.5rem;
 }
 form .field label{
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 1rem;
+    font-weight: bold;
+    margin-left: .5rem;
 }
 
 form .field input,
@@ -303,9 +335,9 @@ form .field textarea{
     padding: .5rem;
     font-size: 1.5rem;
     border-radius: var(--radius);
-    background-color: transparent;
+    background-color: var(--WHITE);
     width: 100%;
-    border: none;
+    border: 2px solid var(--BLACK);
 }
 
 form .field input[type=checkbox]{
@@ -334,10 +366,20 @@ form .col_2 > div{
 form .submit{
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 2rem 0 1rem 0;
+    justify-content: space-evenly;
+    padding: 2rem 0;
 }
 
+/* boton para mostrar y ocultar las passwords */
+button#showPassBtn{
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+    color: var(--BLACK);
+}
+button#showPassBtn:hover{
+    cursor: pointer;
+}
 /* ///////////////////------------------------CSS MODAL------------------------///////////// */
 div.modal_container{
     /* Debe ir display: none; */
@@ -400,13 +442,13 @@ div.myModal div.modal_header a.close_modal{
   /* colores de la notificaciones */
   .n_error,
   .n_error p{
-    background-color: var(--red);
+    background-color: var(--RED);
     color: #fff;
     font-weight: bold;
   }
   .n_success,
   .n_success p{
-    background-color: var(--blue);
+    background-color: var(--GREEN);
     color: #fff;
   }
 
@@ -430,12 +472,12 @@ header.web_header .fixed_bar{
     padding: 1.5rem 0;
     /* CODIGO PARA FIJAR LA BARRA DEL HEADER */
     width: 100%; /* hacemos que la cabecera ocupe el ancho completo de la página */
-      left: 0; /* Posicionamos la cabecera al lado izquierdo */
-      top: 0; /* Posicionamos la cabecera pegada arriba */
+    left: 0; /* Posicionamos la cabecera al lado izquierdo */
+    top: 0; /* Posicionamos la cabecera pegada arriba */
     position: fixed; /* Hacemos que la cabecera tenga una posición fija */
     z-index: 3;
     /* Sombra */
-    border-bottom: 1px solid var(--grey);
+    border-bottom: 1px solid var(--GREY);
 }
 header.web_header .fixed_bar .container{
     display: flex;
@@ -444,11 +486,11 @@ header.web_header .fixed_bar .container{
 }
 
 header.web_header .logo{
-    width: 20rem;
+    width: 4rem;
 }
 @media only screen and (max-width: 420px) {
     header.web_header .logo{
-        width: 15rem;
+        width: 7rem;
     }
 }
 header.web_header .navigation ul{
@@ -460,26 +502,28 @@ header.web_header .navigation ul li{
 
 /* para que nada quede debajo del header */
 header.web_header .bar_space{
-    height: 5.5rem;
+    height: 6rem;
 }
 
 /*////////////////////// -------------------------- FOOTER --------------------------------------------- ///////////////////////*/
 footer{
-    background-color: var(--black);
+    background-color: var(--BLACK);
     padding: 3rem 0 1rem 0;
+    color: var(--WHITE);
 }
 footer div.footer_content{
     display: flex;
     align-items: center;
     justify-content: space-between;
+
 }
 footer div.footer_logo{
-    width: 40rem;
+    width: 15rem;
 }
 /* esconde en pantallas medianas */
 @media only screen and (max-width: 768px) {
     footer div.footer_logo{
-        width: 20rem;
+        width: 10rem;
     }
 }
 footer nav.social_media_nav ul{
@@ -489,8 +533,6 @@ footer nav.social_media_nav ul{
 footer nav.social_media_nav a.social_media{
     display: block;
     text-align: center;
-    color: var(--black);
-    background-color: var(--white);
     width: 4rem;
     height: 4rem;
     padding: 0 .5rem;
@@ -501,107 +543,494 @@ footer nav.social_media_nav a.social_media{
 }
 
 footer div.rights{
-    color: var(--white);
     text-align: center;
     padding-top: 2rem;
 }
 
 /*////////////////////// -------------------------- HOME --------------------------------------------- ///////////////////////*/
 
+.hero{
+    padding: 7rem 0;
+    background-color: var(--LIGHTGREEN);
+}
+
+.hero .hero-content {
+    max-width: 50%;
+    text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .hero .hero-content {
+        max-width: 80%;
+    }
+}
+
+
+/* search section */
+section.search{
+    padding: 5rem 0;
+}
+
+section.search .search-content input{
+    font-size: 2rem;
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--GREEN);
+    margin-right: 2rem;
+}
+
+section.search .search-content button{
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+    section.search .search-content{
+        flex-direction: column;
+    }
+
+    section.search .search-content input{
+        margin-right: 0;
+    }
+
+    section.search .search-content button{
+        margin-top: 2rem;
+    }
+}
+
+/* PROJECT LIST */
+section.project-list{
+    background-color: var(--GREY);
+    padding: 5rem 0;
+}
+
+section.project-list .filters{
+    align-items: center;
+    justify-content: end;
+}
+
+section.project-list .filters select, 
+section.project-list .filters input{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: .5rem;
+    background-color: transparent;
+    border: 2px solid var(--BLACK);
+    border-radius: var(--radius);
+    margin: 0 1rem;
+}
+
+div.project-list-container{
+    /* padding: 2rem 0; */
+
+    /* list display */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Project */
+div.project{
+    border-radius: var(--radius);
+    border: 2px solid var(--BLACK);
+    overflow: hidden;
+    background-color: var(--WHITE);
+    margin-top: 2rem;
+    /* list display */
+    flex: 0 0 calc(25% - 1rem);
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1120px) {
+    body#home div.project{
+        flex: 0 0 calc(25% - 1rem);
+    }
+}
+@media only screen and (max-width: 768px) {
+    body#home div.project{
+        flex: 0 0 calc(33% - 1rem);
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#home div.project{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 420px) {
+    body#home div.project{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
+
+div.project:hover{
+    transition: all .3s ease;
+    border-color: transparent;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
+div.project .information{
+    padding: .5rem;
+}
+
+div.project .information p.title{
+   font-weight: bold;
+   margin-bottom: 1rem;
+}
+
+div.project .information span.categorie{
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    padding: .5rem;
+    border-radius: var(--radius);
+}
+
+div.project .information p.donated{
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--GREEN);
+}
+
+
 
 /*////////////////////// -------------------------- SIGNUP --------------------------------------------- ///////////////////////*/
-section.signup{
-   padding: 3rem 0;
-   background-color: var(--blue);
-   height: 90vh;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-}
-section.signup h1{
-    color: var(--white);
+body#signup{
+    background-color: var(--LIGHTGREEN);
 }
 
-div.signup_form {
-    background-color: var(--white);
-    border-radius: var(--radius);
+body#signup .signup-form-container{
+    background-color: var(--WHITE);
     padding: 2rem;
-    width: 30%;
+    border-radius: var(--radius);
+    width: 60%;
+    margin-bottom: 4rem;
 }
-div.signup_form form .field label{
-    color: var(--blue);
-}
-div.signup_form form .field input{
-   border: 2px solid var(--blue)
+
+body#signup .forgot-pass{
+    text-decoration: underline;
+    color: var(--GREEN);
+    text-align: center;
+    cursor: pointer;
 }
 
 /*  -----------RESPONSIVE SIGNUP FORM----------------*/
 @media only screen and (max-width: 1120px) {
-    div.signup_form{
+    body#signup .signup-form-container{
       width: 40%;
     }
 }
 @media only screen and (max-width: 768px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 50%;
     }
 }
 @media only screen and (max-width: 568px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 80%;
     }
 }
 @media only screen and (max-width: 420px) {
-    div.signup_form{
+    body#signup .signup-form-container{
         width: 95%;
     }
 }
 
 /*////////////////////// -------------------------- LOGIN --------------------------------------------- ///////////////////////*/
-div.modal_login{
-    width: 30%;
-    padding: 3rem;
-    background-color: var(--blue)!important;
+body#login .login-form-container{
+    background-color: var(--LIGHTGREEN);
+    padding: 3rem 5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--GREEN);
+    width: 35%;
+    margin-bottom: 4rem;
 }
-  /* color para el modal login que es azul */
-  div.modal_login div.modal_header a.close_modal{ 
-    color: var(--white)!important;
-  }
+
+body#login .forgot-pass{
+    text-decoration: underline;
+    color: var(--BLACK);
+    text-align: center;
+    cursor: pointer;
+}
+
+/*  -----------RESPONSIVE SIGNUP FORM----------------*/
 @media only screen and (max-width: 1120px) {
-    div.modal_login{
-      width: 40%;
+    body#login .login-form-container{
+      width: 45%;
     }
 }
 @media only screen and (max-width: 768px) {
-    div.modal_login{
-        width: 50%;
+    body#login .login-form-container{
+        width: 60%;
     }
 }
 @media only screen and (max-width: 568px) {
-    div.modal_login{
+    body#login .login-form-container{
+        width: 85%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    body#login .login-form-container{
+        width: 95%;
+    }
+}
+
+
+/*////////////////////// -------------------------- NEW PROJECT  --------------------------------------------- ///////////////////////*/
+body#project .new-project-form-container{
+    background-color: var(--LIGHTGREEN);
+    padding: 3rem 5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--BLACK);
+    width: 50%;
+    margin-bottom: 5rem;
+}
+/*  -----------RESPONSIVE SIGNUP FORM----------------*/
+@media only screen and (max-width: 1120px) {
+    body#project .new-project-form-container{
+      width: 60%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    body#project .new-project-form-container{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#project .new-project-form-container{
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    body#project .new-project-form-container{
+        width: 95%;
+    }
+}
+
+/* ------------------------------ PROFILE ----------------------- */
+body#profile .profile-content{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0;
+}
+
+body#profile .profile-content h3{
+    font-size: 2rem;
+}
+
+body#profile .profile-content .profile-sidebar{
+    flex: 0 0 calc(25% - 1rem);
+}
+
+body#profile .profile-content .profile-main{
+    flex: 0 0 calc(75% - 1rem);
+}
+
+@media only screen and (max-width: 1120px) {
+
+    body#profile .profile-content .profile-sidebar{
+        flex: 0 0 calc(33% - 1rem);
+    }
+    
+    body#profile .profile-content .profile-main{
+        flex: 0 0 calc(66% - 1rem);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    
+    body#profile .profile-content{
+        flex-direction: column;
+    }
+
+    body#profile .profile-content .profile-sidebar{
+        flex: 0 0 100%;
+    }
+    
+    body#profile .profile-content .profile-main{
+        flex: 0 0 100%;
+        margin-top: 2rem;
+    }
+}
+
+
+/* ---- USER ------------ */
+body#profile .profile-sidebar .user{
+    padding: 1rem;
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+}
+
+body#profile .profile-sidebar .user p.icon{
+    font-size: 5rem;
+}
+
+body#profile .profile-sidebar .user .user-info{
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+}
+body#profile .profile-sidebar .user .name{
+    font-size: 1.8rem;
+}
+
+body#profile .profile-sidebar .user .user-action{
+    padding: 1rem 0;
+}
+
+/* ---- DONATION HISTORY ------------ */
+body#profile .profile-sidebar .donation-history{
+    padding: 1rem;
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    margin-top: 2rem;
+}
+
+body#profile .profile-sidebar .donation{
+    padding: 1rem 0;
+    border-top: 1px solid var(--BLACK);
+}
+body#profile .profile-sidebar .donation:first-of-type{
+    padding: 1rem 0;
+    border-color: transparent;
+}
+body#profile .profile-sidebar .donation .donation-amount{
+    font-weight: bold;
+}
+
+
+/* ---- WALLET ------------ */
+body#profile .profile-main .wallet{
+    border: 2px solid var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 2rem;
+}
+
+body#profile .profile-main .wallet-amount{
+    font-size: 5rem;
+    color: var(--GREEN);
+}
+
+body#profile .profile-main .load-wallet-container input{
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    padding: .5rem;
+    border: none;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+/* ---- PROJECTS ------------ */
+body#profile .profile-main .my-project-container{
+    padding: 2rem;
+}
+
+body#profile div.project{
+    /* list display */
+    flex: 0 0 calc(33% - 1rem);
+}
+
+@media only screen and (max-width: 768px) {
+    body#profile div.project{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 568px) {
+    body#profile div.project{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
+
+
+/* -------------- MODAL DONATE PROJECT ------------------------- */
+div.modal-donate-project{
+    width: 50%;
+    padding: 3rem;
+}
+
+@media only screen and (max-width: 1120px) {
+    div.modal-donate-project{
+      width: 60%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    div.modal-donate-project{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 568px) {
+    div.modal-donate-project{
         width: 80%;
     }
 }
 @media only screen and (max-width: 420px) {
-    div.modal_login{
+    div.modal-donate-project{
         width: 95%;
     }
 }
-div.modal_login h2{
-    text-align: center;
-    color: var(--white);
+
+div.modal-donate-project img{
+    border-radius: var(--radius);
 }
-div.modal_login form .field label{
-    color: var(--white);
+
+div.modal-donate-project .information{
+    padding: .5rem;
 }
-div.modal_login form .field input{
-   border: 2px solid var(--white);
-   color: var(--white);
+
+div.modal-donate-project .information p.title{
+   font-weight: bold;
+   margin-bottom: 1rem;
 }
-div.modal_login p.register{
-    color: var(--white);
-}
-div.modal_login p.register a{
-    color: var(--yellow);
+
+div.modal-donate-project .information .info-banner{
+    font-size: 1rem;
     font-weight: bold;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
+}
+
+div.modal-donate-project .information p.description{
+    margin: 2rem 0;
+}
+
+
+div.modal-donate-project .information p.donated{
+    text-align: center;
+    font-size: 5rem;
+    font-weight: bold;
+    color: var(--GREEN);
+}
+
+div.modal-donate-project div.user-wallet{
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 1rem;
+}
+
+div.modal-donate-project div.user-wallet .balance{
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+    padding: 1rem;
+}
+
+div.modal-donate-project div.user-wallet input{
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
+    background-color: var(--BLACK);
+    color: var(--WHITE);
+    font-size: 1.5rem;
+    border: none;
+    margin-bottom: 2rem;
+    text-align: center;
 }

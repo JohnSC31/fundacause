@@ -2,37 +2,65 @@
 /*////////////////////// -------------------------- ADMIN AREA  --------------------------------------------- ///////////////////////*/
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+/* ------------------------------- LOGIN ------------------------------------ */
+body#login{
+    background-color: var(--BLACK);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.admin-login-container h1{
+    color: var(--WHITE);
+}
+
+div.admin-login-form-container{
+    background-color: var(--WHITE);
+    padding: 2rem 5rem;
+    border-radius: var(--radius);
+}
+
+/* ----------------------------------------- ADMIN DASHBOARD ------------------------------------------- */
+
 div.admin_container{
     display: flex;
     height: 100vh;
 }
 
-
 div.admin_container div.header_container{
-    background-color: var(--black);
+    background-color: var(--WHITE);
     flex: 0 0 30%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    color: var(--white);
+    color: var(--BLACK);
     padding: 2rem 0;
 }
 
 div.admin_container div.header_container div.admin_logo{
     width: 100%;
+    height: 8rem;
     display: flex;
     justify-content: center;
     padding: 0 5rem 2rem 5rem;
 }
 div.header_container nav.admin_navigation ul li{
     cursor: pointer;
-    padding: 2rem;
+    padding: 1.5rem;
     font-size: 2rem;
     font-weight: bold;
+    border-top: 1px solid var(--BLACK);
 }
+
+div.header_container nav.admin_navigation ul li:last-of-type{
+    border-bottom: 1px solid var(--BLACK);
+}
+
+
 div.header_container nav.admin_navigation ul li.active{
-    background-color: var(--white);
-    color: var(--black);
+    background-color: var(--BLACK);
+    color: var(--WHITE);
 }
 div.header_container nav.admin_navigation ul i{
     margin-right: 1rem;
@@ -62,132 +90,107 @@ nav.admin_navigation div.logout_btn_container{
 
 div.dashboard_container{
     flex: 0 0 70%;
-    padding: 1rem;
-    overflow: scroll;
+    padding: 2rem;
+    overflow-y: scroll;
+    background-color: var(--BLACK);
+    color: var(--WHITE)
 }
 
-/* ------------------------------- DATATABLES ------------------------------------ */
-div.datatable-container{
-    padding: 1rem;
-    border: 1px solid var(--grey);
-    border-radius: var(--radius); 
-}
-div.datatable-container table{
-    font-size: 1.8rem;
+div.dashboard_container h1{
+    font-weight: bold;
 }
 
-div.datatable-container table button{
-    margin: 0 .5rem;
-}
+/* ------------ ESTADISTICAS ---------- */
 
-/* ------------------------------- VENTAS ------------------------------------ */
-/* div.sells_container{
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; *
-} */
-div.sell_report_container{
-    background-color: var(--blue);
-    border-radius: var(--radius);
-    padding: 1rem;
-    color: var(--white);
-    width: 50%;
-}
-
-div.sell_report_container .field input,
-div.sell_report_container .field select{
-    background-color: var(--white);
-}
-
-
-/* ------------------------------- LOGIN ------------------------------------ */
-body#login{
-    background-color: var(--black);
-    height: 100vh;
+div.stats-items-container{
+    padding: 2rem 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-div.admin_login_container{
-    background-color: var(--white);
-    padding: 1rem;
-    border-radius: var(--radius);
-}
-div.admin_login_container h1{
-    text-align: center;
-}
-
-form#admin_login label{
-    color: var(--black);
-}
-form#admin_login .field input,
-form#admin_login select,
-form#admin_login textarea{
-    color: var(--black);
-    background-color: var(--white);
-    border: 1px solid var(--black);
-}
-
-/* ------------------------------- CONFIGURACIONES ------------------------------------ */
-div.config_container{
-    background-color: var(--grey);
-    padding: 1rem;
-    border-radius: var(--radius);
-    margin: 1rem 0;
-}
-
-div.config_container form{
-    background-color: var(--blue);
-    padding: 1rem;
-    border-radius: var(--radius);
-}
-div.config_container form label{
-    color: var(--white);
-}
-div.config_container form .field input,
-div.config_container form select,
-div.config_container form textarea{
-    color: var(--black);
-    background-color: var(--white);
-}
-
-div.config_container div.config_list_container{
-    border-radius: var(--radius);
-    border: 1px solid var(--black);
-    padding: .5rem;
-}
-div.config_list_container div.config_item{
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px solid var(--black);
+
 }
 
-div.config_list_container div.config_item:last-child{
-    border-bottom: none;
+div.stats-items-container div.stat-item{
+    flex: 0 0 calc(33.3% - 1rem);
+
+    background-color: var(--WHITE);
+    color: var(--BLACK);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 2rem;
 }
-div.config_item div.config_actions{
-    display: flex;
-    align-items: center;
+
+div.stats-items-container div.stat-item h2{
+    font-size: 7rem;
 }
-div.config_item div.config_actions button{
-    border: 2px solid transparent;
-    margin: .5rem;
+div.stats-items-container div.stat-item p.stat-number{
+    font-size: 5rem;
+    font-weight: bold;
 }
-div.config_item div.config_actions button.btn_edit_config{
-    background-color: var(--yellow);
-    border-color: var(--yellow);
+
+/* ------------ USERS ---------- */
+div.user-horizontal-item{
+    background-color: var(--WHITE);
+    color: var(--BLACK);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 2rem;
 }
-div.config_item div.config_actions button.btn_edit_config:hover{
-    background-color: transparent;
-    color: var(--yellow);
+
+div.user-horizontal-item h2{
+    font-size: 7rem;
 }
-div.config_item div.config_actions button.btn_delete_config{
-    background-color: var(--red);
-    border-color: var(--red);
+
+div.user-horizontal-item div.profile{
+    font-weight: bold;
+    padding: 1rem 0;
+} 
+div.user-horizontal-item div.profile > div{
+    margin-left: 2rem;
 }
-div.config_item div.config_actions button.btn_delete_config:hover{
-    background-color: transparent;
-    color: var(--red);
+
+div.user-horizontal-item div.profile p.name{
+    font-size: 3rem;
+}
+
+div.user-horizontal-item div.action-container button:first-of-type{
+    margin-right: 2rem;
+}
+
+/* ------------ USERS ---------- */
+div.project{
+    flex: 0 0 calc(33.3% - 2rem);
+}
+
+@media only screen and (max-width: 768px) {
+    div.project{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 568px) {
+    div.project{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
+/* ------- DONATIONS -------------- */
+body#admin .history{
+    padding: 1rem;
+    background-color: var(--WHITE);
+    border-radius: var(--radius);
+    margin-top: 2rem;
+}
+
+body#admin .donation{
+    padding: 1rem 0;
+    border-top: 1px solid var(--BLACK);
+    color: var(--BLACK);
+}
+body#admin .donation:first-of-type{
+    padding: 1rem 0;
+    border-color: transparent;
+}
+body#admin .donation .donation-amount{
+    font-weight: bold;
+    font-size: 3rem;
 }
