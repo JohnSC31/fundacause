@@ -45,6 +45,30 @@
             require_once '../views/modals/'. $data['modal'] . '.php';
         }
 
+        // Registro de cliente
+        private function userSignUp($user){
+
+            // Registro en la base de datos
+
+            // iniciar sesion
+
+            // retornar el resultado
+
+            $this->ajaxRequestResult(true, "Se ha registrado correctamente", $user);
+        }
+
+        private function userLogin($user){
+            // verificar credenciales 
+
+            // establecer la sesion
+            $this->ajaxRequestResult(true, "Se ha iniciado sesion correctamente", $user);
+
+        }
+
+        private function createProject($project){
+            $this->ajaxRequestResult(true, "Se ha creado el proyecto correctamente", $project);
+        }
+
 
     }
 
