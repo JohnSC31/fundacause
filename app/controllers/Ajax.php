@@ -51,13 +51,17 @@
         private function userSignUp($user){
 
             // Registro en la base de datos
-            $api = new Api('/usuarios/');
-
+            $api = new Api('/usuarios/', 'POST', $user);
+            $api->callApi();
+            
             // iniciar sesion
 
             // retornar el resultado
-
-            $this->ajaxRequestResult(true, "Se ha registrado correctamente", $user);
+            if(!$api->getError()){
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente", $api->getResult());
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
         }
 
         private function userLogin($user){

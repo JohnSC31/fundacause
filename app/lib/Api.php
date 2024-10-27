@@ -10,7 +10,9 @@
         private $data;
         private $url;
 
-        public $result = false;
+        private $result;
+
+        private $err = false;
 
 
         public function __construct($endpoint, $method = 'GET',  $data = false){
@@ -26,7 +28,7 @@
                 $this->request();
             } catch (\Throwable $th) {
                 //throw $th;
-                $result = false;
+                $this->err = $th;
             }
         }
 
@@ -72,5 +74,9 @@
 
         public function getResult(){
             return $this->result;
+        }
+
+        public function getError(){
+            return $this->err;
         }
     }

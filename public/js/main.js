@@ -187,13 +187,16 @@ async function userSignUpForm (e){
   if(!validPassword(input_pass.val())) return false;
 
   const signupFormData = new FormData();
+  signupFormData.append('cedula', input_idNumber.val());
   signupFormData.append('name', input_name.val());
-  signupFormData.append('idNumber', input_idNumber.val());
-  signupFormData.append('workarea', input_workarea.val());
-  signupFormData.append('phone', input_phone.val());
-
   signupFormData.append('email', input_email.val());
-  signupFormData.append('pass', input_pass.val());
+  signupFormData.append('areaTrabajo', input_workarea.val());
+  signupFormData.append('dineroInicial', '0');
+  signupFormData.append('rol', 'usuario');
+  signupFormData.append('telefono', input_phone.val());
+  signupFormData.append('contrasenna', input_pass.val());
+  signupFormData.append('estado', 'Activo');
+
   signupFormData.append('ajaxMethod', "userSignUp");  
 
   result = await ajaxRequest(signupFormData);
