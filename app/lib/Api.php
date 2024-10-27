@@ -17,7 +17,7 @@
 
         public function __construct($endpoint, $method = 'GET',  $data = false){
             $this->curl = curl_init();
-            $this->$method = $method;
+            $this->method = $method;
             $this->endpoint = $endpoint;
             $this->data = $data;
             $this->url = $this->base_url . $endpoint;
@@ -28,7 +28,7 @@
                 $this->request();
             } catch (\Throwable $th) {
                 //throw $th;
-                $this->err = $th;
+                $this->result = $th;
             }
         }
 
@@ -38,25 +38,31 @@
             switch ($this->method){
                 case "POST":
                     curl_setopt($this->curl, CURLOPT_POST, 1);
+
                     if ($this->data)
                         curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($this->data));
+
                     break;
                 case "PUT":
                     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "PUT");
+
                     if ($this->data)
-                        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->data);			 					
+                        curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($this->data));		
+
                     break;
                 case "DELETE":
                     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
                     if ($this->data)
-                        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->data);			 					
+                        curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($this->data));			 					
                     break;
+
                 default: // GET
                     if ($this->data)
-                        $url = sprintf("%s?%s", $url, http_build_query($this->data));
+                        $this->url = sprintf("%s?%s", $this->url, http_build_query($this->data));
             }
             // OPTIONS:
-            curl_setopt($this->curl, CURLOPT_URL, $url);
+            curl_setopt($this->curl, CURLOPT_URL, $this->url);
             curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
             ));
@@ -64,7 +70,7 @@
             curl_setopt($this->curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
             // EXECUTE:
             $this->result = curl_exec($this->curl);
-           
+            $this->err = !$this->result;
             $this->close();
         }   
 
@@ -74,6 +80,19 @@
 
         public function getResult(){
             return $this->result;
+        }
+
+        public function getApiStatus(){
+
+            return array(
+                'curl' => $this->curl,
+                'url' => $this->url,
+                'method' => $this->method,
+                'data' => $this->data,
+                'result' => $this->result, 
+                'error' => $this->err
+
+            );
         }
 
         public function getError(){

@@ -16,7 +16,7 @@
         private $api;
 
         public function __construct(){
-            $this->api = new Api;
+
             $this->ajaxMethod = isset($_POST['ajaxMethod']) ? $_POST['ajaxMethod'] : NULL ;
             unset($_POST['ajaxMethod']);
 
@@ -58,7 +58,7 @@
 
             // retornar el resultado
             if(!$api->getError()){
-                $this->ajaxRequestResult(true, "Se ha registrado correctamente", $api->getResult());
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente");
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
             }
@@ -76,6 +76,19 @@
             $this->ajaxRequestResult(true, "Se ha creado el proyecto correctamente", $project);
         }
 
+        private function getUsers($post){
+            $api = new Api('/usuarios/', 'GET');
+            $api->callApi();
+            
+            // iniciar sesion
+
+            // retornar el resultado
+            if(!$api->getError()){
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente", $api->getResult());
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+        }
 
     }
 

@@ -24,7 +24,11 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       if($("body").attr('id') === "project"){
         $('#funding').maskMoney();
       }
-    
+
+      if($("body").attr('id') === "signup"){
+        // getUsers();
+      }
+      
   
     }); // end DOMContentLoaded
   
@@ -32,6 +36,18 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
 })();
 
 // ///////////////// *******************************  FUNCIONES  ****************************** /////////////////////
+
+async function getUsers(){
+
+  const usersTest = new FormData();
+        
+  usersTest.append('ajaxMethod', "getUsers");  
+
+  result = await ajaxRequest(usersTest);
+
+  console.log(result.Data);
+
+}
 // FUNCION PARA ABRIR Y CARGAR UN MODAL
 function openModal(e){
   e.preventDefault();
@@ -187,13 +203,13 @@ async function userSignUpForm (e){
   if(!validPassword(input_pass.val())) return false;
 
   const signupFormData = new FormData();
-  signupFormData.append('cedula', input_idNumber.val());
+  signupFormData.append('cedula', input_idNumber.val().replace(/ /g, ''));
   signupFormData.append('name', input_name.val());
   signupFormData.append('email', input_email.val());
   signupFormData.append('areaTrabajo', input_workarea.val());
   signupFormData.append('dineroInicial', '0');
   signupFormData.append('rol', 'usuario');
-  signupFormData.append('telefono', input_phone.val());
+  signupFormData.append('telefono', input_phone.val().replace(/\-/g, ''));
   signupFormData.append('contrasenna', input_pass.val());
   signupFormData.append('estado', 'Activo');
 
