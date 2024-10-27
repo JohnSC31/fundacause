@@ -4,17 +4,19 @@
 	    die('Invalid Request');
     }
 
-    // require_once 'Db.php';
+    require_once '../config.php';
+    require_once '../lib/Api.php';
+
 
 
     class Ajax {
         private $controller = "Ajax";
         private $ajaxMethod;
         private $data;
-        private $db;
+        private $api;
 
         public function __construct(){
-            // $this->db = new Db;
+            $this->api = new Api;
             $this->ajaxMethod = isset($_POST['ajaxMethod']) ? $_POST['ajaxMethod'] : NULL ;
             unset($_POST['ajaxMethod']);
 
@@ -49,6 +51,7 @@
         private function userSignUp($user){
 
             // Registro en la base de datos
+            $api = new Api('/usuarios/');
 
             // iniciar sesion
 
