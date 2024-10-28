@@ -8,15 +8,15 @@
                 <div class="col">
                     <div class="field">
                         <label for="name">Nombre</label>
-                        <input type="text" name="name" id="name">
+                        <input type="text" name="name" id="name" maxlength="35">
                     </div>
                     <div class="field">
                         <label for="funding">Objetivo recaudación</label>
-                        <input type="number" name="funding" id="funding">
+                        <input type="text" name="funding" id="funding">
                     </div>
                     <div class="field">
                         <label for="deadline">Fecha Límite</label>
-                        <input type="date" name="deadline">                    
+                        <input type="date" name="deadline" id="deadline">                    
                     </div>
                 </div><!-- col -->
                 <div class="col">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="field">
                         <label for="pass">Descripción</label>
-                        <textarea name="description" id="description" cols="30" rows="5" require></textarea>
+                        <textarea name="description" id="description" cols="30" rows="5" require maxlength="150"></textarea>
 
                     </div>
                 </div><!-- col -->
