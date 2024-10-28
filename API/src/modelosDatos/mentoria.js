@@ -5,10 +5,6 @@ const esquemaMentoria = mongoose.Schema({
         type: String,
         required: true
     },
-    nombreMentoria: {
-        type: String,
-        required: true
-    },
     descripcion: {
         type: String,
         required: true
@@ -17,10 +13,20 @@ const esquemaMentoria = mongoose.Schema({
         type: String, 
         required: true
     },
-    usuariosM: {
-        type: [String], 
+    correoUsuario: {
+        type: String, 
+        required: true
+    },
+    fecha: {
+        type: Date,
+        required: true
+    },
+    pagoRealizado:
+    {
+        type: Boolean,
         required: true
     }
+
 });
 
 module.exports = mongoose.model('Mentoria', esquemaMentoria);
