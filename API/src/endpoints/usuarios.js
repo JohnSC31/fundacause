@@ -179,7 +179,7 @@ router.post('/autenticacion', (req, res) => {
             if (usuario.estado === 'Inactivo') {
                 return res.status(500).json({ mensaje: 'Usuario desactivado'});
             }
-            return res.status(200).json({mensaje: usuario.rol});
+            return res.status(200).json({mensaje: usuario});
         } else {
             return res.status(500).json({ mensaje: 'Credeniales incorrectas' });
         }

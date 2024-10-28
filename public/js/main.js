@@ -19,6 +19,8 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       $("body").on("click", "#showPassBtn", showPass);
       // Inicio de sesion
       $("body").on("submit", "form#login-form", userLoginForm);
+       // boton de cerrar sesion
+       $("body").on("click", "[log-out]", userLogout);
       // Crear proyecto
       $("body").on("submit", "form#new-project-form", newProjectForm);
       if($("body").attr('id') === "project"){
@@ -239,7 +241,7 @@ async function userLoginForm(e){
   // form data
   const loginFormData = new FormData();
   loginFormData.append('email', input_email.val());
-  loginFormData.append('pass', input_pass.val());
+  loginFormData.append('contrasenna', input_pass.val());
   loginFormData.append('ajaxMethod', "userLogin");  
 
   result = await ajaxRequest(loginFormData);
@@ -251,6 +253,23 @@ async function userLoginForm(e){
     }, 1500)
   }
 
+}
+
+async function userLogout(e){
+  e.preventDefault();
+
+   // form data
+   const loginFormData = new FormData();
+   loginFormData.append('ajaxMethod', "userLogout");  
+ 
+   result = await ajaxRequest(loginFormData);
+   showNotification(result.Message, result.Success, true);
+ 
+   if(result.Success){
+     setTimeout(()=>{
+       window.location.href = URL_PATH + 'home';
+     }, 1500)
+   }
 }
 
 

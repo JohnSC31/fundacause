@@ -9,6 +9,7 @@
         private $endpoint;
         private $data;
         private $url;
+        private $status;
 
         private $result;
 
@@ -21,6 +22,7 @@
             $this->endpoint = $endpoint;
             $this->data = $data;
             $this->url = $this->base_url . $endpoint;
+            $this->status = 200;
         }
 
         public function callApi(){
@@ -28,7 +30,7 @@
                 $this->request();
             } catch (\Throwable $th) {
                 //throw $th;
-                $this->result = $th;
+                $this->err = $th;
             }
         }
 
@@ -69,9 +71,9 @@
             curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($this->curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
             // EXECUTE:
-            $this->result = curl_exec($this->curl);
-            $this->err = !$this->result;
-            $this->close();
+            $this->result = json_decode(curl_exec($this->curl), 1);
+
+            $this->status = curl_getinfo($this->curl, CURLINFO_HTTP_CODE); // obtiene el estado luego de la ejecucion
         }   
 
         public function close(){
@@ -95,7 +97,11 @@
             );
         }
 
+        public function getStatus(){
+            return $this->status;
+        }
+
         public function getError(){
-            return $this->err;
+            return curl_errno($this->curl);
         }
     }

@@ -14,6 +14,7 @@
         <input type="text" id="search-project" placeholder="Buscar">
         <button class="btn btn-green"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+    <?php var_dump($_SESSION); ?>
 </section>
 
 

@@ -57,7 +57,7 @@
             // iniciar sesion
 
             // retornar el resultado
-            if(!$api->getError()){
+            if(!$api->getStatus()){
                 $this->ajaxRequestResult(true, "Se ha registrado correctamente");
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
@@ -66,10 +66,41 @@
 
         private function userLogin($user){
             // verificar credenciales 
-
+            $api = new Api('/autenticacion/', 'POST', $user);
+            $api->callApi();
             // establecer la sesion
-            $this->ajaxRequestResult(true, "Se ha iniciado sesion correctamente", $user);
+            if($api->getStatus() === 200){
+                
+                $userSession = $api->getResult()['mensaje'];
 
+                $userSession['SESSION'] = true;
+                if(isset($userSession['contrasenna'])) unset($userSession['contrasenna']);
+
+                $_SESSION['USER'] = $userSession;
+    
+                if(isset($_SESSION['USER'])){
+                    // retorna sin errores
+                    $this->ajaxRequestResult(true, "Se ha iniciado sesión correctamente");
+                }else{
+                    $this->ajaxRequestResult(false, "Se ha producido un error al iniciar sesión");
+                }
+            }else{
+                $this->ajaxRequestResult(false, $api->getResult()['mensaje']);
+            }
+            
+            $api->close();
+
+        }
+
+        private function userLogout(){
+            unset($_SESSION['USER']); 
+
+            if(!isset($_SESSION['USER'])){
+              
+                $this->ajaxRequestResult(true, "Se ha cerrado la sesión");
+            }else{ 
+                $this->ajaxRequestResult(false, "Se ha producido un error al cerrar sesión");
+            }
         }
 
         private function createProject($project){
@@ -83,8 +114,8 @@
             // iniciar sesion
 
             // retornar el resultado
-            if(!$api->getError()){
-                $this->ajaxRequestResult(true, "Se ha registrado correctamente", $api->getResult());
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente");
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
             }
