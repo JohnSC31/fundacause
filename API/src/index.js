@@ -18,6 +18,7 @@ app.use(cors());
 const rutasUsuario = require('./endpoints/usuarios');
 const rutasProyecto = require('./endpoints/proyecto');
 const rutasDonacion = require('./endpoints/donaciones');
+const rutasMentoria = require('./endpoints/mentorias')
 
 // middlewares
 
@@ -42,7 +43,9 @@ app.use('/api', rutasUsuario ); // ruta para los usuarios
 
 app.use('/api', rutasProyecto ); // ruta para los proyectos
 
-app.use('/api', rutasDonacion ); // ruta para las tareas
+app.use('/api', rutasDonacion ); // ruta para las donaciones
+
+app.use('/api', rutasMentoria ); // ruta para las mentorias
 
 // rutas
 app.get('/', (req, res) => {
