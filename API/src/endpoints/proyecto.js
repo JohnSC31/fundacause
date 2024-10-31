@@ -27,6 +27,23 @@ router.get('/proyectos', (req, res) => {
         .catch((error) => res.json(error));
 });
 
+//obtener proyecto por correo de usuario
+router.get('/proyectos/:correo', (req, res) => {
+    let proyectos = []
+    const { correo } = req.params;
+    esquemaProyecto.find()
+        .then((proyect) => {
+            proyect.forEach(proyecto => {
+                if (proyecto.correoResponsable == correo){
+                    proyectos.push(proyecto);
+                }
+            });
+            res.json(proyectos);
+        })
+        .catch((error) => res.json(error));
+
+});
+
 //obtener lista de los Id de los proyectos
 router.get('/proyectosId', (req, res) => {
     let ids_proyec = [];
@@ -116,47 +133,6 @@ router.delete('/proyectos/:id', (req, res) => {
 });
 
 
-//informe general
-router.get('/informeG', (req, res) => {
-    //obtener todos los proyectos
-    let contadorFinalizadas = 0;
-    let contadorEnCurso = 0;
-    let contadorPendientes = 0;
-    let listTareas = [];
-    esquemaProyecto.find()
-        .then((proyectos) => {
-            for (let i = 0; i < proyectos.length; i++) {
-
-
-                listTareas = proyectos[i].tareas;
-
-
-                for (const tarea of listTareas) {
-                    //console.log(tarea)
-                    if (tarea.estado === "Finalizada") {
-                        contadorFinalizadas += 1
-                    }
-                    else if (tarea.estado === "En curso") {
-                        contadorEnCurso += 1
-                    }
-                    else if (tarea.estado === "Pendiente") {
-                        contadorPendientes += 1
-                    }
-                };
-
-
-            }
-            const informeGen = {
-                tareasFinalizadas: contadorFinalizadas,
-                tareasEnCurso: contadorEnCurso,
-                tareasPendientes: contadorPendientes
-            };
-            return res.json(informeGen);
-        })
-        .catch((error) => res.json(error));
-});
-
-
 // agregar usuario al proyecto
 router.post('/agregarusuarioP', (req, res) => {
     const { idProyecto, email } = req.body;
@@ -202,30 +178,7 @@ router.delete('/eliminarMiembroP', (req, res) => {
         });
 });
 
-// Informe general de todos los proyectos
-router.get('/informe-general', (req, res) => {
-    esquemaProyecto.find()
-        .then(proyectos => {
-            let totalToDo = 0;
-            let totalInProgress = 0;
-            let totalFinished = 0;
 
-            proyectos.forEach(proyecto => {
-                totalToDo += proyecto.tareas.filter(tarea => tarea.estado === 'Pendiente').length;
-                totalInProgress += proyecto.tareas.filter(tarea => tarea.estado === 'En curso').length;
-                totalFinished += proyecto.tareas.filter(tarea => tarea.estado === 'Finalizada').length;
-            });
-
-            const data = {
-                totalPorHacer: totalToDo,
-                totalEnProgreso: totalInProgress,
-                totalFinalizadas: totalFinished
-            };
-
-            res.json(data);
-        })
-        .catch(error => res.json(error));
-});
 
 
 // actualizar montoReca

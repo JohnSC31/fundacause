@@ -199,7 +199,6 @@ router.put('/usuariosM', (req, res) => {
 
 router.get('/usuariosMP/:email', (req, res)=>{
     const { email } = req.params;
-    console.log("correo puto"+email);
     
     esquemaUsuario.findOne({email}).then(usuario =>{
         
