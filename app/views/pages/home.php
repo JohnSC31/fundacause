@@ -14,7 +14,6 @@
         <input type="text" id="search-project" placeholder="Buscar">
         <button class="btn btn-green"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
-    <?php var_dump($_SESSION); ?>
 </section>
 
 
@@ -28,7 +27,7 @@
             <input type="date" id="search-date">
         </div>
 
-        <div class="project-list-container">
+        <div class="project-list-container" id="proyects-home-container">
             <?php for($i = 1; $i <= 8; $i++): ?>
                 <div class="project" data-modal="donate-project">
                     <div class="img">

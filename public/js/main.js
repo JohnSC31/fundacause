@@ -23,6 +23,11 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
        $("body").on("click", "[log-out]", userLogout);
       // Crear proyecto
       $("body").on("submit", "form#new-project-form", newProjectForm);
+
+      if($("body").attr('id') === "home"){
+        loadProyectsHome();
+      }
+
       if($("body").attr('id') === "project"){
         $('#funding').maskMoney();
       }
@@ -30,6 +35,12 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       if($("body").attr('id') === "signup"){
         // getUsers();
       }
+
+      if($("body").attr('id') === "profile"){
+        loadUserDonation();
+      }
+
+      
       
   
     }); // end DOMContentLoaded
@@ -258,18 +269,18 @@ async function userLoginForm(e){
 async function userLogout(e){
   e.preventDefault();
 
-   // form data
-   const loginFormData = new FormData();
-   loginFormData.append('ajaxMethod', "userLogout");  
- 
-   result = await ajaxRequest(loginFormData);
-   showNotification(result.Message, result.Success, true);
- 
-   if(result.Success){
-     setTimeout(()=>{
-       window.location.href = URL_PATH + 'home';
-     }, 1500)
-   }
+  // form data
+  const loginFormData = new FormData();
+  loginFormData.append('ajaxMethod', "userLogout");  
+
+  result = await ajaxRequest(loginFormData);
+  showNotification(result.Message, result.Success, true);
+
+  if(result.Success){
+    setTimeout(()=>{
+      window.location.href = URL_PATH + 'home';
+    }, 1500)
+  }
 }
 
 
@@ -300,14 +311,27 @@ async function newProjectForm(e){
   }
   if(!validInput(textarea_description.val())) return false;
   
+  // proyecto = {
+  //   correoResponsable:	(str, required),
+  //   pName:        	(str, required),
+  //   descripcion:     	(str, required),
+  //   objetivoF:     	(str, required),
+  //   montoReca:     	(str, required), (al crearlo 0)
+  //   fechaLimite:     	(str, required),
+  //   categoriaP:    	(str, required), (estan en la db??)
+  //   mediaItems:    	([str], required),(que es esto??)
+  //   donaciones:    	([str], required) (vacio?)
+  
+  // }
+  
 
   // form data
   const projectFormData = new FormData();
-  projectFormData.append('name', input_name.val());
-  projectFormData.append('funding', input_funding.val());
-  projectFormData.append('deadline', input_deadline.val());
-  projectFormData.append('categorie', select_categorie.val());
-  projectFormData.append('description', textarea_description.val());
+  projectFormData.append('pName', input_name.val());
+  projectFormData.append('objetivoF', input_funding.val());
+  projectFormData.append('fechaLimite', input_deadline.val());
+  projectFormData.append('categoriaP', select_categorie.val());
+  projectFormData.append('descripcion', textarea_description.val());
 
   projectFormData.append('ajaxMethod', "createProject");  
 
@@ -322,6 +346,26 @@ async function newProjectForm(e){
 }
 
 
+// --------------- CARGAR TODOS LOS PROYECTOS
+async function loadProyectsHome(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadProyects");  
+
+  result = await ajaxHTMLRequest(formData, 'div#proyects-home-container');
+}
+
+
+// ---------------------- DONACIONES -----------------------------------------
+async function loadUserDonation(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadUserDontations");  
+
+  result = await ajaxHTMLRequest(formData, 'div#user-donations-history');
+}
 ///////////// ************************ AJAX BACKEND CONN ************************ ///////////////
 // FUNCION QUE REALIZA LA CONECCION CON EL BACKEND
 // Debe haber un campo en el form data indicando el metodo a utilizar en el ajax controller llamado 'ajaxMethod'

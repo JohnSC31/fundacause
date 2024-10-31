@@ -104,4 +104,8 @@
         public function getError(){
             return curl_errno($this->curl);
         }
+
+        public function getUrl(){
+            return $this->url;
+        }
     }

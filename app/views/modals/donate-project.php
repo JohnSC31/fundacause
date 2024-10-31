@@ -1,6 +1,10 @@
 
 <?php  
+   $api = new Api('/proyectos/' . $data['data']['id'], 'GET');
 
+   $api->callApi();
+
+   $proyect = $api->getResult();
 ?>
 
 <div class="myModal modal-donate-project" >
@@ -14,16 +18,16 @@
             <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
         </div>
         <div class="information">
-            <h3 class="title">Titulo del projecto</h3>
+            <h3 class="title"><?php echo $proyect['pName']; ?></h3>
             <div class="info-banner flex flex-space">
-                <p>Categoria</p>
-                <p>12/12/24</p>
+                <p><?php echo $proyect['categoriaP']; ?></p>
+                <p><?php echo $proyect['fechaLimite']; ?></p>
             </div>
             
             
 
-            <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil quam eos laborum minus qui officiis, inventore unde dicta nisi distinctio, repellat facilis vitae illo cumque esse necessitatibus quidem, neque sequi!</p>
-            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> 0 </p>
+            <p class="description"><?php echo $proyect['descripcion']; ?></p>
+            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <?php echo $proyect['montoReca']; ?> </p>
         </div>
 
         <div class="user-wallet">

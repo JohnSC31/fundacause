@@ -57,7 +57,7 @@
             // iniciar sesion
 
             // retornar el resultado
-            if(!$api->getStatus()){
+            if($api->getStatus() === 200){
                 $this->ajaxRequestResult(true, "Se ha registrado correctamente");
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
@@ -104,7 +104,26 @@
         }
 
         private function createProject($project){
-            $this->ajaxRequestResult(true, "Se ha creado el proyecto correctamente", $project);
+            // Se crea el proyecto
+
+
+            $project['correoResponsable'] = $_SESSION['USER']['email'];
+            $project['montoReca'] = '0';
+            $project['mediaItems'] = [];
+            $project['donaciones'] = [];
+            $project['estado'] = 'Activo';
+            $project['validaciones'] = [];
+
+            $api = new Api('/proyectos', 'POST', $project);
+            $api->callApi();
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha creado correctamente");
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+            $api->close();
         }
 
         private function getUsers($post){
@@ -121,6 +140,58 @@
             }
         }
 
+
+        private function loadProyects($post){
+            $api = new Api('/proyectos/', 'GET');
+            $api->callApi();
+
+            $proyects = $api->getResult();
+
+            // var_dump($proyects);
+            foreach($proyects as $index => $proyect):
+            ?>
+                <div class="project" data-modal="donate-project" data-modal-data='{"id": "<?php echo $proyect['_id'];?> "}'>
+                    <div class="img">
+                        <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
+                    </div>
+                    <div class="information">
+                        <p class="title"><?php echo $proyect['pName']; ?></p>
+                        <span class="categorie"><?php echo $proyect['categoriaP']; ?></span>
+                        <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <?php echo $proyect['montoReca']; ?></p>
+                    </div>
+                </div><!-- .project -->
+            <?php
+            endforeach;
+        }
+
+        private function loadUserDontations($post){
+            $api = new Api('/donaciones/'.$_SESSION['USER']['email'], 'GET');
+            $api->callApi();
+
+            $donations = $api->getResult();
+
+            if(count($donations) > 0){
+                foreach ($donations as $key => $donation) {
+                    ?>
+                        <div class="donation">
+                            <div class="donation-header flex flex-space">
+                                <p><?php echo $donation['nombreProyecto'] ;?></p>
+                                <p><?php echo $donation['fechaDonacion']; ?></p>
+                            </div>
+                            <p class="donation-amount"><i class="fa-solid fa-dollar-sign"></i> <?php echo $donation['monto']; ?></p>
+                        </div>
+                    <?php
+                }
+            }else{
+                ?>
+
+                    <div class="donation txt-center">
+                        <p>No hay donaciones</p>
+                    </div>
+
+                <?php
+            }
+        }
     }
 
 

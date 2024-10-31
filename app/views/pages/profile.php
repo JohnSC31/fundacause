@@ -1,5 +1,6 @@
 <div class="profile container">
-    <h1 class="page-title">Perfil</h1>
+    <h1 class="page-title">Perfil</h1> 
+    <?php var_dump($_SESSION['USER']); ?> 
 
     <div class="profile-content">
         <div class="profile-sidebar">
@@ -7,21 +8,21 @@
                 <p class="icon txt-center"><i class="fa-solid fa-circle-user"></i></p>
 
                 <div class="user-info">
-                    <p class="name">John Sanchez C</p>
-                    <p class="email">correo@gmail.com</p>
+                    <p class="name"><?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['name']; ?></p>
+                    <p class="email"><?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['email']; ?></p>
                 </div>
 
-                <p><i class="fa-solid fa-briefcase"></i> Area de trabajo</p>
-                <p><i class="fa-solid fa-phone"></i> 8515-8411</p>
+                <p><i class="fa-solid fa-briefcase"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['areaTrabajo']; ?></p>
+                <p><i class="fa-solid fa-phone"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['telefono']; ?></p>
                 <div class="user-action flex align-center">
-                    <button class="btn btn-black"><i class="fa-solid fa-user-pen"></i> Editar</button>
+                    <button class="btn btn-black"><i class="fa-solid fa-user-pen"></i>Editar</button>
                 </div>
             </div>
 
             <div class="donation-history">
                 <h3 class="txt-center">Historial de donaciones</h3>
 
-                <div class="history">
+                <div class="history" id="user-donations-history">
                     <div class="donation">
                         <div class="donation-header flex flex-space">
                             <p>Nombre del proyecto</p>
@@ -60,7 +61,7 @@
                 
                 <div class="project-list-container">
                     <?php for($i = 1; $i <= 4; $i++): ?>
-                        <div class="project">
+                        <div class="project" data-modal="edit-project">
                             <div class="img">
                                 <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
                             </div>
