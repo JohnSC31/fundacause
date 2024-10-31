@@ -46,10 +46,6 @@ const esquemaUsuario = mongoose.Schema({
     estado: {
         type: String,
         required: true
-    },
-    mentor:{
-        type: String,
-        required: false
     }
 
 });
