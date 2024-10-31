@@ -3,7 +3,7 @@
     <h1 class="page-title-center">Iniciar sesión</h1>
 
     <div class="login-form-container">
-        <form action="" method="post" id="login_form">
+        <form action="" method="post" id="login-form">
  
             <div class="field">
                 <label for="email">Correo electrónico</label>
