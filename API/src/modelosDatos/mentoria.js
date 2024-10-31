@@ -13,8 +13,8 @@ const esquemaMentoria = mongoose.Schema({
         type: String, 
         required: true
     },
-    correoUsuario: {
-        type: String, 
+    correoUsuarios: {
+        type: [String], 
         required: true
     },
     fecha: {
@@ -24,6 +24,14 @@ const esquemaMentoria = mongoose.Schema({
     pagoRealizado:
     {
         type: Boolean,
+        required: true
+    },
+    montoPagado:{
+        type: String,
+        required: true
+    }, 
+    estado: {
+        type: String,
         required: true
     }
 

@@ -63,66 +63,46 @@ router.delete('/mentorias/:id', (req, res) => {
         .catch((err) => res.json(err));
 });
 
+//Cambiar estado a la mentoria
+router.put('/mentorias/estado/:id', (req, res) => {
+    const { id } = req.params;
+    const { estado } = req.body;
+    const filter = { _id: id };
 
-//informe general
-router.get('/informeG', (req, res) => {
-    //obtener todos los mentorias
-    let contadorFinalizadas = 0;
-    let contadorEnCurso = 0;
-    let contadorPendientes = 0;
-    let listTareas = [];
-    esquemaMentoria.find()
-        .then((mentorias) => {
-            for (let i = 0; i < mentorias.length; i++) {
-
-
-                listTareas = mentorias[i].tareas;
-
-
-                for (const tarea of listTareas) {
-                    //console.log(tarea)
-                    if (tarea.estado === "Finalizada") {
-                        contadorFinalizadas += 1
-                    }
-                    else if (tarea.estado === "En curso") {
-                        contadorEnCurso += 1
-                    }
-                    else if (tarea.estado === "Pendiente") {
-                        contadorPendientes += 1
-                    }
-                };
-
-
-            }
-            const informeGen = {
-                tareasFinalizadas: contadorFinalizadas,
-                tareasEnCurso: contadorEnCurso,
-                tareasPendientes: contadorPendientes
-            };
-            return res.json(informeGen);
-        })
-        .catch((error) => res.json(error));
+    esquemaMentoria.updateOne(filter, {$set: {estado: estado }})
+        .then(() => { res.json({ mensaje: 'Estado de la mentoria actualizado' }) })
+        .catch((err) => res.json(err));
 });
 
+//modificar monto pagado
+router.put('/mentorias/montoPagado/:id', (req, res) => {
+    const { id } = req.params;
+    const { montoPagado } = req.body;
+    const filter = { _id: id };
+    esquemaMentoria.updateOne(filter, {$set: {montoPagado: montoPagado}})
+        .then(() => { res.json({ mensaje: 'Monto pagado de la mentoria actualizado' }) })   
+        .catch((err) => res.json(err));
+});
 
-// agregar usuario al mentoria
-router.post('/agregarusuarioP', (req, res) => {
-    const { idmentoria, email } = req.body;
+// agregar usuario a mentoria
+router.post('/mentorias/agregarusuario/:id', (req, res) => {
+    const { email } = req.body;
+    const { idmentoria } = req.params;
     console.log(idmentoria);
     esquemaMentoria.findById(idmentoria)
         .then((mentoria) => { //revisa que el usuario no este ya en el mentoria
-            if (mentoria.correoColaboradores.length > 0) {
-                for (let i = 0; i < mentoria.correoColaboradores.length; i++) {
-                    if (mentoria.correoColaboradores == email) {
-                        return res.status(400).json({ error: "El usuario ya está en el mentoria" });
+            if (mentoria.correoUsuarios.length > 0) {
+                for (let i = 0; i < mentoria.correoUsuarios.length; i++) {
+                    if (mentoria.correoUsuarios[i] == email) {
+                        return res.status(400).json({ error: "El usuario ya está en la mentoria" });
                     }
                 }
             }
 
 
-            mentoria.correoColaboradores.push(email);
+            mentoria.correoUsuarios.push(email);
             mentoria.save()
-                .then(() => res.json({ mensaje: "Usuario agregado al mentoria" }))
+                .then(() => res.json({ mensaje: "Usuario agregado a la mentoria" }))
                 .catch((error) => res.json(error));
         })
 });
