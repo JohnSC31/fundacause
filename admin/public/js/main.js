@@ -9,9 +9,18 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       // Despues de cargar todo el DOM se ejecuta el codigo
 
       //LOGIN
-      $("body").on("submit", "form#admin_login", loginAdmin);
+      $("body").on("submit", "form#admin-login-form", loginAdmin);
       //LOGOUT
       $("body").on("click", "[data-admin-logout]", logoutAdmin);
+      // CREATE ADMIN
+      $("body").on("submit", "form#create-admin-form", createAdmin);
+
+      $("body").on("submit", "form#create-event-form", createEvent);
+      
+      
+      // ACCIONES DE LOS USUARIOS
+      $("body").on("click", "[user-action]", userAction);
+      
 
       // APERTURA DE LOS MODALS
       $("body").on("click", "[data-modal]", openModal);
@@ -25,7 +34,7 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
         adminNavigation(e.currentTarget);
       });
 
-      
+      $('input#price').maskMoney();
 
       
       
@@ -96,7 +105,7 @@ function showNotification(message, success, timer = true){
         if(timer){ // si timer entonces de deshace sola
           notification.removeClass('visible');
           setTimeout(()=>{
-              notification.remove();
+            notification.remove();
           }, 500)
         }    
       }, 3000)   
@@ -188,7 +197,7 @@ async function loginAdmin(e){
   // form data
   const loginFormData = new FormData();
   loginFormData.append('email', input_email.val());
-  loginFormData.append('pass', input_pass.val());
+  loginFormData.append('contrasenna', input_pass.val());
   loginFormData.append('ajaxMethod', "adminLogin");  
 
   result = await ajaxRequest(loginFormData);
@@ -276,19 +285,219 @@ function adminNavigation(option){
   $('div#dashboard_container div.'+ $(option).attr("data-admin-nav") + '_container').css('display', 'block');
 
   // ACCIONES PARA LAS SECCIONES
+  if($(option).attr("data-admin-nav") === 'stats'){
+    loadStats();
+  }
 
+  if($(option).attr("data-admin-nav") === 'projects'){
+    loadAdminProyects();
+  }
+  
+
+  if($(option).attr("data-admin-nav") === 'users'){
+    // se cargan los administradores
+    loadUsers();
+  }
+  
+  if($(option).attr("data-admin-nav") === 'admins'){
+    // se cargan los administradores
+    loadAdmins();
+  }
+
+  if($(option).attr("data-admin-nav") === 'donations'){
+    loadDonations();
+  }
+}
+
+// ------------------------- CARGAR A LOS USUARIOS
+async function loadUsers(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('rols', JSON.stringify(new Array("usuario", "mentor"))); 
+  formData.append('ajaxMethod', "loadUsers"); 
+   
+
+  result = await ajaxHTMLRequest(formData, 'div#users-list-container');
 }
 
 
+// ---------------------- ACCIONES PARA LOS USAURIOS
+async function userAction(e){
+  e.preventDefault();
+  action = $(this).attr('user-action');
 
-///////////// ************************ CARGAR LOS SELECT ************************ ///////////////
-async function loadSelectOptions(idSelect){
+  const formData = new FormData();
 
-  const selectFormData = new FormData();
-  selectFormData.append("idSelect", idSelect);
-  selectFormData.append('ajaxMethod', "loadSelectOptions");
+  // se desactiva el usuario
+  if(action === 'desactivate'){
+    formData.append('correo', $(this).attr('user-data')); 
+    formData.append('ajaxMethod', "desactivateUser"); 
+  }
 
-  ajaxHTMLRequest(selectFormData, "select#" + idSelect);
+  // se activa el usuario
+  if(action === 'activate'){
+    formData.append('correo', $(this).attr('user-data'));
+    formData.append('ajaxMethod', "activateUser"); 
+  }
+
+  // se elimina el usuario
+  if(action === 'delete'){
+    if(!confirm('Desea eliminar al usuario permanentemente')) return;
+    formData.append('id', $(this).attr('user-data'));
+    formData.append('ajaxMethod', "deleteUser"); 
+  }
+
+  result = await ajaxRequest(formData);
+
+  showNotification(result.Message, result.Success);
+
+  if(result.Success){
+    loadUsers();
+  }
+}
+
+// --------------------- CARGAR A LOS ADMINISTRADORES -----------------------------------
+async function loadAdmins(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('rols', JSON.stringify(new Array("admin"))); 
+  formData.append('ajaxMethod', "loadUsers"); 
+
+  result = await ajaxHTMLRequest(formData, 'div#admin-list-container');
+}
+
+// ------------------------- CREAR UN ADMINISTRADOR
+async function createAdmin (e){
+  e.preventDefault();
+
+  // optienen los campos del formulario
+  const input_name = $('input#name');
+  const input_idNumber = $('input#idNumber');
+  const input_workarea = $('input#workArea');
+  const input_phone = $('input#phoneNumber')
+  
+  const input_email = $('input#email');
+  const input_pass = $('input#pass');
+
+  // validan los datos
+  if(!validInput(input_name.val(), false, "Ingrese un nombre")) return false;
+  if(!validInput(input_idNumber.val(), false, "Ingrese una cedula")) return false;
+  if(!validInput(input_workarea.val(), false, "Ingrese un area de trabajo")) return false;
+  if(!validInput(input_phone.val(), false, "Ingrese un telefono")) return false;
+
+  
+  if(!validEmail(input_email.val())) return false;
+  if(!validPassword(input_pass.val())) return false;
+
+  const signupFormData = new FormData();
+  signupFormData.append('cedula', input_idNumber.val().replace(/ /g, ''));
+  signupFormData.append('name', input_name.val());
+  signupFormData.append('email', input_email.val());
+  signupFormData.append('areaTrabajo', input_workarea.val());
+  signupFormData.append('dineroInicial', '0');
+  signupFormData.append('rol', 'admin');
+  signupFormData.append('telefono', input_phone.val().replace(/\-/g, ''));
+  signupFormData.append('contrasenna', input_pass.val());
+  signupFormData.append('estado', 'Activo');
+
+  signupFormData.append('ajaxMethod', "createAdmin");  
+
+  result = await ajaxRequest(signupFormData);
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    $('form#create-admin-form')[0].reset();
+    loadAdmins();
+  }
+}
+
+// --------------------- CARGAR LAS DONACIONES -----------------------------------
+async function loadDonations(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData(); 
+  formData.append('ajaxMethod', "loadDonations"); 
+
+  result = await ajaxHTMLRequest(formData, 'div#donations-list-container');
+}
+
+// ---------------- CARGAR LAS ESTADISTICAS
+async function loadStats(e = false){
+  if(e) e.preventDefault();
+
+  const formData = new FormData();
+
+  formData.append('ajaxMethod', "loadStats");  
+
+  result = await ajaxRequest(formData);
+
+  if(!result.Success) showNotification(result.Message, result.Success, false);
+
+  $('p#users-stat').text(result.Data.users);
+  $('p#projects-stat').text(result.Data.projects);
+  $('p#donations-stat').text(result.Data.donations);
+
+
+}
+
+// --------------- CARGAR TODOS LOS PROYECTOS
+async function loadAdminProyects(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadAdminProyects");  
+
+  result = await ajaxHTMLRequest(formData, 'div#projects-list-container');
+}
+
+// ---------------------- CREAR UN EVENTO
+async function createEvent(e){
+  e.preventDefault();
+
+  // campos
+  const input_name = $('input#name');
+  const input_date = $('input#date');
+  const input_price = $('input#price');
+
+  const select_modality = $('select#select-modality');
+  const textarea_description = $('textarea#description');
+
+  // validacion
+  if(!validInput(input_name.val(), false, "Ingrese un nombre")) return false;
+  if(!validInput(input_price.val(), false, "Ingrese un objetivo de recaudacion")) return false;
+  if(!validInput(input_date.val(), false, "Ingrese una fecha limite")) return false;
+
+  // validacion fecha futura
+  if(!(new Date() < new Date(input_date.val()))){
+    showNotification("Fecha limite debe ser futura", false);
+    return false;
+  }
+  if($(select_modality).val() == ""){
+    showNotification("Seleccione una modalidad", false);
+    return false;
+  }
+  if(!validInput(textarea_description.val())) return false;
+
+
+  // form data
+  const formData = new FormData();
+  formData.append('name', input_name.val());
+  formData.append('fecha', input_date.val());
+  formData.append('precio', input_price.val());
+  formData.append('modalidad', select_modality.val());
+  formData.append('descripcion', textarea_description.val());
+
+
+  formData.append('ajaxMethod', "createEvent");
+
+  result = await ajaxRequest(formData);
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    loadUserProyects(); // se actualiza en la lista
+  }
 }
 
 ///////////// ************************ AJAX BACKEND CONN ************************ ///////////////

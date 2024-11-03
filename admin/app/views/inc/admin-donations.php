@@ -1,7 +1,7 @@
 <div class="donations_container" style="display:none;">
     <h1>Donaciones</h1>
 
-    <div class="history">
+    <div class="history" id="donations-list-container">
         <div class="donation">
             <div class="donation-header flex flex-space">
                 <p>Nombre del proyecto - John Sanchez C</p>

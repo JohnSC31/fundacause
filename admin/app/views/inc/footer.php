@@ -10,6 +10,7 @@
 <script defer src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script src="<?php echo URL_PATH; ?>public/js/jquery.mask.js"></script>
+<script src="<?php echo URL_PATH; ?>public/js/jquery.maskMoney.min.js"></script>
 
 <script src="<?php echo URL_ADMIN_PATH; ?>public/js/main.js"></script>
 </body>
