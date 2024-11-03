@@ -61,7 +61,7 @@ router.get('/proyectosId', (req, res) => {
 });
 
 //buscar proyecto por id
-router.get('/proyectos/:id', (req, res) => {
+router.get('/proyectosID/:id', (req, res) => {
     const { id } = req.params;
 
     esquemaProyecto.findById(id)
@@ -182,9 +182,9 @@ router.delete('/eliminarMiembroP', (req, res) => {
 
 
 // actualizar montoReca
-router.put('/proyectos/actualizarMonto/:id', async (req, res) => {
+router.put('/proyectos/actualizarMonto', async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.body;
         const { montoRecaS } = req.body;
 
         // Asegurarse de esperar la resolución de la promesa
