@@ -40,6 +40,7 @@
             
             <div class="submit">
                 <input type="submit" class="btn btn-green" value="Crear">
+                <input type="hidden" id="action" value="create">
             </div>
         </form>
 

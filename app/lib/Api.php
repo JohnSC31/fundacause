@@ -91,6 +91,7 @@
                 'url' => $this->url,
                 'method' => $this->method,
                 'data' => $this->data,
+                'status' => $this->status,
                 'result' => $this->result, 
                 'error' => $this->err
 

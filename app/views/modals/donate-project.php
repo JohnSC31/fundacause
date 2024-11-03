@@ -1,10 +1,12 @@
 
 <?php  
-   $api = new Api('/proyectos/' . $data['data']['id'], 'GET');
+   $api = new Api('/proyectosID/' . $data['data']['id'], 'GET');
 
    $api->callApi();
 
    $proyect = $api->getResult();
+
+   
 ?>
 
 <div class="myModal modal-donate-project" >
@@ -27,18 +29,25 @@
             
 
             <p class="description"><?php echo $proyect['descripcion']; ?></p>
-            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <?php echo $proyect['montoReca']; ?> </p>
+            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <span id="projectAmount"><?php echo $proyect['montoReca']; ?></span></p>
         </div>
 
+        <?php if(isset($_SESSION['USER'])) { ?>
+
         <div class="user-wallet">
-            <h4>Mi billetera</h4>
-            <h3 class="balance txt-center"><i class="fa-solid fa-dollar-sign"></i> 1000 </h3>
+            <h4>Donar al proyecto</h4>
+            <h3 class="balance txt-center"><i class="fa-solid fa-dollar-sign"></i> <span id="userAmount"><?php echo $_SESSION['USER']['dineroInicial'];?></span> </h3>
             <div class="flex-col align-center">
-                <input type="text" name="amount" id="amount">
-                <button class="btn btn-green"><i class="fa-solid fa-plus"></i> Donar</button>
+                <input type="text" name="amount" id="donation-amount" placeholder="Cantidad">
+                <input type="text" name="comentario" id="donation-comment" placeholder="Comentario">
+                <input type="hidden" id="idProject" value="<?php echo $data['data']['id']; ?>">
+                <input type="hidden" id="nameProject" value="<?php echo $proyect['pName']; ?>">
+                <button class="btn btn-green" id="user-donate"><i class="fa-solid fa-plus"></i>Donar</button>
             </div>
 
         </div>
+
+        <?php } ?>
       
     </div><!-- .modal-content -->
 </div>

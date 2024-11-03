@@ -929,6 +929,21 @@ body#profile .profile-main .load-wallet-container input{
     font-size: 1.5rem;
 }
 
+/* ---- MENTORSHIPS ------------ */
+body#profile .profile-main .mentorships{
+    padding: 2rem;
+}
+
+body#profile .profile-main .mentorship{
+    padding: 1rem;
+    background-color: var(--LIGHTGREEN);
+    border-radius: var(--radius);
+}
+body#profile .profile-main .mentorship-header{
+   margin-bottom: 1rem;
+   font-weight: bold;
+}
+
 /* ---- PROJECTS ------------ */
 body#profile .profile-main .my-project-container{
     padding: 2rem;
