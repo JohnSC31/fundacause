@@ -2,8 +2,8 @@
     <h1 class="page-title-center">Iniciar sesión</h1>
 
     <div class="admin-login-form-container">
-        <form action="" method="post" id="admin_login_form">
- 
+        <form action="" method="post" id="admin-login-form">
+
             <div class="field">
                 <label for="email">Correo electrónico</label>
                 <input type="email" name="email" id="email">

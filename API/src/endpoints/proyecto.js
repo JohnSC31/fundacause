@@ -61,7 +61,7 @@ router.get('/proyectosId', (req, res) => {
 });
 
 //buscar proyecto por id
-router.get('/proyectos/:id', (req, res) => {
+router.get('/proyectosID/:id', (req, res) => {
     const { id } = req.params;
 
     esquemaProyecto.findById(id)
@@ -71,13 +71,12 @@ router.get('/proyectos/:id', (req, res) => {
 });
 
 //actualizar un proyecto
-router.put('/proyectos/:id/:correo/:name', async (req, res) => {
+router.put('/proyectos/:id/:correo/', async (req, res) => {
     const { id } = req.params;
     const { correo } = req.params;
-    const { name } = req.params;
-    const { descripcion, objetivoF, categoriaP, mediaItems } = req.body;
+    const { pName, descripcion, objetivoF, categoriaP, fechaLimite, mediaItems } = req.body;
 
-    esquemaProyecto.updateOne({ _id: id }, { $set: { descripcion, objetivoF, categoriaP, mediaItems } })
+    esquemaProyecto.updateOne({ _id: id }, { $set: {pName, descripcion, objetivoF, categoriaP, fechaLimite, mediaItems } })
         .then(() => { res.json({ mensaje: 'Proyecto actualizado' }) })
         .catch((err) => res.json(err));
 

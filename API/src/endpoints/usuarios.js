@@ -197,6 +197,7 @@ router.put('/usuariosM', (req, res) => {
         .catch((err) => res.json(err));
 });
 
+// obtiene los proyectos de un usuario dado un correo
 router.get('/usuariosMP/:email', (req, res)=>{
     const { email } = req.params;
     

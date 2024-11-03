@@ -23,6 +23,24 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
        $("body").on("click", "[log-out]", userLogout);
       // Crear proyecto
       $("body").on("submit", "form#new-project-form", newProjectForm);
+      // editar un proyecto
+      $("body").on("submit", "form#edit-project-form", newProjectForm);
+
+      // agregar dinero a la billetera
+      $("body").on("click", "button#add-amount", addUserAmount);
+
+      // hacer una donacion
+      $("body").on("click", "button#user-donate", donateProject);
+      
+      // solicitar mentoria
+      $("body").on("submit", "form#mentory-form", requestMentoring);
+      
+      
+
+      if($("body").attr('id') === "home"){
+        loadProyectsHome();
+      }
+
       if($("body").attr('id') === "project"){
         $('#funding').maskMoney();
       }
@@ -30,6 +48,15 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       if($("body").attr('id') === "signup"){
         // getUsers();
       }
+
+      if($("body").attr('id') === "profile"){
+        loadUserDonation();
+        loadUserProyects();
+        loadMentorshipsMentor();
+        
+      }
+
+      
       
   
     }); // end DOMContentLoaded
@@ -258,18 +285,18 @@ async function userLoginForm(e){
 async function userLogout(e){
   e.preventDefault();
 
-   // form data
-   const loginFormData = new FormData();
-   loginFormData.append('ajaxMethod', "userLogout");  
- 
-   result = await ajaxRequest(loginFormData);
-   showNotification(result.Message, result.Success, true);
- 
-   if(result.Success){
-     setTimeout(()=>{
-       window.location.href = URL_PATH + 'home';
-     }, 1500)
-   }
+  // form data
+  const loginFormData = new FormData();
+  loginFormData.append('ajaxMethod', "userLogout");  
+
+  result = await ajaxRequest(loginFormData);
+  showNotification(result.Message, result.Success, true);
+
+  if(result.Success){
+    setTimeout(()=>{
+      window.location.href = URL_PATH + 'home';
+    }, 1500)
+  }
 }
 
 
@@ -283,6 +310,7 @@ async function newProjectForm(e){
   const input_deadline = $('input#deadline');
   const select_categorie = $('select#select-categorie');
   const textarea_description = $('textarea#description');
+  const input_action = $('input#action');
 
   // validacion
   if(!validInput(input_name.val(), false, "Ingrese un nombre")) return false;
@@ -300,18 +328,173 @@ async function newProjectForm(e){
   }
   if(!validInput(textarea_description.val())) return false;
   
+  // proyecto = {
+  //   correoResponsable:	(str, required),
+  //   pName:        	(str, required),
+  //   descripcion:     	(str, required),
+  //   objetivoF:     	(str, required),
+  //   montoReca:     	(str, required), (al crearlo 0)
+  //   fechaLimite:     	(str, required),
+  //   categoriaP:    	(str, required), (estan en la db??)
+  //   mediaItems:    	([str], required),(que es esto??)
+  //   donaciones:    	([str], required) (vacio?)
+  
+  // }
+  
 
   // form data
   const projectFormData = new FormData();
-  projectFormData.append('name', input_name.val());
-  projectFormData.append('funding', input_funding.val());
-  projectFormData.append('deadline', input_deadline.val());
-  projectFormData.append('categorie', select_categorie.val());
-  projectFormData.append('description', textarea_description.val());
+  projectFormData.append('pName', input_name.val());
+  projectFormData.append('descripcion', textarea_description.val());
+  projectFormData.append('objetivoF', input_funding.val());
+  projectFormData.append('categoriaP', select_categorie.val());
+  projectFormData.append('fechaLimite', input_deadline.val());
 
-  projectFormData.append('ajaxMethod', "createProject");  
+ 
 
+  if(input_action.val() == 'create')    projectFormData.append('ajaxMethod', "createProject");
+  if(input_action.val() == 'edit'){
+    projectFormData.append('_id', $('input#idProject').val());
+    
+    projectFormData.append('ajaxMethod', "editProject");
+  }
+  
   result = await ajaxRequest(projectFormData);
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    loadUserProyects(); // se actualiza en la lista
+  }
+}
+
+
+// --------------- CARGAR TODOS LOS PROYECTOS
+async function loadProyectsHome(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadProyects");  
+
+  result = await ajaxHTMLRequest(formData, 'div#proyects-home-container');
+}
+
+
+// -------------------- CARGAR LOS PROYECTOS DE UN USUARIO
+async function loadUserProyects(e = false){
+  if(e) e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadUserProyects");  
+
+  result = await ajaxHTMLRequest(formData, 'div#proyects-profile-container');
+}
+
+// ------------------- AGREGAR DINERO A LA BILLETERA
+async function addUserAmount(e = false){
+  if(e) e.preventDefault();
+
+  // validaciones
+  const input_amount = $('input#addAmount');
+
+  if(!$.isNumeric(input_amount.val()) || parseInt(input_amount.val()) <= 0){
+    showNotification("Debe ingresar un numero positvo valido", false);
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('amount', input_amount.val());
+  formData.append('ajaxMethod', "addUserAmount"); 
+  
+  result = await ajaxRequest(formData);
+  showNotification(result.Message, result.Success);
+
+  if(result.Success){
+    $('span#userAmount').text(result.Data); // se acutaliza el monto
+    input_amount.val(''); // se acutaliza el monto
+  }
+}
+
+// -------------------- DONACION DE USUARIO
+
+async function donateProject(e = false){
+  if(e) e.preventDefault();
+
+  // validaciones
+  const input_amount = $('input#donation-amount');
+  const input_comment = $('input#donation-comment');
+
+  if(!$.isNumeric(input_amount.val()) || parseInt(input_amount.val()) <= 0){
+    showNotification("Debe ingresar un numero positvo valido", false);
+    input_amount.val('');
+    return;
+  }
+
+  if(!validInput(input_comment.val())) return;
+
+  const formData = new FormData();
+  formData.append('monto', input_amount.val());
+  formData.append('proyectoId', $('input#idProject').val());
+  formData.append('nombreProyecto', $('input#nameProject').val());
+  formData.append('fechaDonacion',new Date(Date.now()).toLocaleDateString());
+  formData.append('comentario', input_comment.val());
+
+  formData.append('ajaxMethod', "donateProject"); 
+
+  result = await ajaxRequest(formData);
+  showNotification(result.Message, result.Success);
+
+  if(result.Success){
+    $('span#userAmount').text(result.Data.wallet); // se acutaliza el monto
+    $('span#projectAmount').text(result.Data.newProjectAmount); // se acutaliza el monto
+    input_amount.val(''); // se acutaliza el monto
+    input_comment.val(''); // se acutaliza el monto
+  }
+
+}
+// ---------------------- DONACIONES -----------------------------------------
+async function loadUserDonation(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadUserDontations");  
+
+  result = await ajaxHTMLRequest(formData, 'div#user-donations-history');
+}
+
+
+// ----------------------- SOLICITAR MENTORIA
+async function requestMentoring(e){
+  e.preventDefault();
+
+  // optienen los campos del formulario
+  const input_mentor_email = $('input#mentor-email');
+  const input_date = $('input#date');
+  const input_description = $('textarea#description');
+  const input_id_project = $('input#idProject');
+
+  // validan los datos
+  if(!validEmail(input_mentor_email.val())) return false;
+
+  if(!validInput(input_date.val(), false, "Ingrese una fecha")) return false;
+  // validacion fecha futura
+  if(!(new Date() < new Date(input_date.val()))){
+    showNotification("La fecha debe ser futura", false);
+    return false;
+  }
+
+  if(!validInput(input_description.val(), false, "Ingrese una descripcion")) return false;
+
+
+  const formData = new FormData();
+  formData.append('correoMentor', input_mentor_email.val());
+  formData.append('fecha', input_date.val());
+  formData.append('descripcion', input_description.val());
+  formData.append('proyectoId', input_id_project.val());
+  
+
+  formData.append('ajaxMethod', "requestMentoring");  
+
+  result = await ajaxRequest(formData);
   showNotification(result.Message, result.Success, false);
 
   if(result.Success){
@@ -319,8 +502,19 @@ async function newProjectForm(e){
       window.location.href = URL_PATH + 'profile';
     }, 1500)
   }
+
 }
 
+
+// cargar las mentorias de un mentor en el prefil
+async function loadMentorshipsMentor(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData();
+  formData.append('ajaxMethod', "loadMentorshipsMentor");  
+
+  // result = await ajaxHTMLRequest(formData, 'div#mentorships-profile-container');
+}
 
 ///////////// ************************ AJAX BACKEND CONN ************************ ///////////////
 // FUNCION QUE REALIZA LA CONECCION CON EL BACKEND

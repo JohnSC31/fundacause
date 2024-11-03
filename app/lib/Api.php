@@ -91,6 +91,7 @@
                 'url' => $this->url,
                 'method' => $this->method,
                 'data' => $this->data,
+                'status' => $this->status,
                 'result' => $this->result, 
                 'error' => $this->err
 
@@ -103,5 +104,9 @@
 
         public function getError(){
             return curl_errno($this->curl);
+        }
+
+        public function getUrl(){
+            return $this->url;
         }
     }

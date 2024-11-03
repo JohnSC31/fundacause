@@ -12,7 +12,7 @@
                 <li data-admin-nav="projects" class=""><i class="fa-solid fa-lightbulb"></i> <span class="hide_medium"> Proyectos</span></li>
                 <li data-admin-nav="donations" class=""><i class="fa-solid fa-hand-holding-dollar"></i> <span class="hide_medium"> Donaciones</span></li>
                 <li data-admin-nav="admins" class=""><i class="fa-solid fa-user-shield"></i> <span class="hide_medium"> Administradores</span></li>
-                <li data-admin-nav="notifications" class=""><i class="fa-solid fa-envelope"></i> <span class="hide_medium"> Notificaciones</span></li>
+                <li data-admin-nav="events" class=""><i class="fa-solid fa-calendar-days"></i> <span class="hide_medium"> Eventos</span></li>
             </ul>
 
             <div class="logout_btn_container">
@@ -41,7 +41,7 @@
         <?php require_once '../app/views/inc/admin-admins.php'; ?>
 
         <!-- SECCION DE NOTIFICATIONS -->
-        <?php require_once '../app/views/inc/admin-notifications.php'; ?>
+        <?php require_once '../app/views/inc/admin-events.php'; ?>
         
     </div>
 </div>

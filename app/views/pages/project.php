@@ -21,10 +21,13 @@
                 </div><!-- col -->
                 <div class="col">
                     <div class="field">
-                        <label for="email">Categoría</label>
-                        <select name="countries" id="select-categorie">
-                            <option value="1">Categoría 1</option>
-                            <option value="2">Categoría 2</option>
+                        <label for="categories">Categoría</label>
+                        <select name="categories" id="select-categorie">
+                            <option value="Deporte">Deporte</option>
+                            <option value="Technologia">Technologia</option>
+                            <option value="Salud">Salud</option>
+                            <option value="Educacion">Educacion</option>
+                            <option value="Cultura">Cultura</option>
                         </select>
                     </div>
                     <div class="field">
@@ -37,6 +40,7 @@
             
             <div class="submit">
                 <input type="submit" class="btn btn-green" value="Crear">
+                <input type="hidden" id="action" value="create">
             </div>
         </form>
 
