@@ -214,6 +214,7 @@ router.get('/usuariosMP/:email', (req, res)=>{
 
 });
 
+// Actualizar dinero del usuario
 router.put('/usuarios/actualizarDinero/:correo', (req, res) => {
     const { correo } = req.params;
     const { nuevoMonto } = req.body;
