@@ -157,4 +157,40 @@ router.put('/mentorias/actualizarMonto/:id', async (req, res) => {
 });
 
 
+// traer mentorias por el correo de mentor
+router.get('/mentoriasPorCorreoM/:correo', async (req,res) => {
+    const { correo } = req.params;
+    let mentorias = [];
+    esquemaMentoria.find()
+        .then((mentoria) => {
+            mentoria.forEach(mentoria => {
+                if (mentoria.correoMentor == correo) {
+                    mentorias.push(mentoria);
+                }
+            });
+            res.json(mentorias);
+        })
+        .catch((error) => res.json(error));
+    
+
+});
+
+// traer mentorias por el correo de usuario
+router.get('/mentoriasPorCorreoU/:correo', async (req,res) => {
+    const { correo } = req.params;
+    let mentorias = [];
+    esquemaMentoria.find()
+        .then((mentoria) => {
+            mentoria.forEach(mentoria => {
+                if (mentoria.correoUsuario == correo) {
+                    mentorias.push(mentoria);
+                }
+            });
+            res.json(mentorias);
+        })
+        .catch((error) => res.json(error));
+    
+
+});
+
 module.exports = router;

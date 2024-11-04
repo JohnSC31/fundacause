@@ -11,7 +11,7 @@ router.get('/usuarios', (req, res) => {
 });
 
 // lista de mentores
-router.get('/usuarios/mentores', (req, res) => {
+router.get('/usuarios/todos/mentores', (req, res) => {
     let correosMentores = []
     esquemaUsuario.find({rol: "mentor"}).then(usuarios => {
         usuarios.forEach(usuario => {
@@ -248,6 +248,20 @@ router.put('/usuarios/actualizarDinero/:correo', (req, res) => {
     .catch((error) => res.status(500).json({ message: 'Error al actualizar el dinero.', error }));
 });
 
-
+//cambiar el rol 
+router.put('/usuarios/cambiarRol/:correo', (req, res) => {
+    const { correo } = req.params;
+    const { nuevoRol } = req.body;
+    esquemaUsuario.findOneAndUpdate({ email: correo },          
+        { $set: { rol: nuevoRol } } 
+    )
+    .then((usuarioActualizado) => {
+        if (!usuarioActualizado) {
+            return res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+        res.json(usuarioActualizado);
+    }
+    )
+});
 
 module.exports = router;
