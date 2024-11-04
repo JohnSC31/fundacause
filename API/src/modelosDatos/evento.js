@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const esquemaMentoria = mongoose.Schema({
-    correoMentor: {
+const esquemaEvento = mongoose.Schema({
+    correoHost: {
         type: String,
         required: true
     },
@@ -9,23 +9,25 @@ const esquemaMentoria = mongoose.Schema({
         type: String,
         required: true
     },
-    precio: {
-        type: String, 
+    participantes: {
+        type: [String], 
         required: true
     },
-    correoUsuario: {
-        type: String, 
-        required: true
-    },
-    fechayHora: {
+    fechaHora: {
         type: Date,
         required: true
     },
-    estado: {
+    
+    modalidad:{
+        type: String,
+        required: true
+    },
+    materiales:{
         type: String,
         required: true
     }
+    
 
 });
 
-module.exports = mongoose.model('Mentoria', esquemaMentoria);
+module.exports = mongoose.model('Evento', esquemaEvento);

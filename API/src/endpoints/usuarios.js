@@ -10,6 +10,20 @@ router.get('/usuarios', (req, res) => {
         .catch((error) => res.json(error));
 });
 
+// lista de mentores
+router.get('/usuarios/todos/mentores', (req, res) => {
+    let correosMentores = []
+    esquemaUsuario.find({rol: "mentor"}).then(usuarios => {
+        usuarios.forEach(usuario => {
+            correosMentores.push(usuario.email)
+        });
+        res.json(correosMentores);
+    }).catch(error => {
+        res.json(error);
+    });
+    
+});
+
 // Trae los usuarios por correo
 router.get('/usuarios/correo/:correo', (req, res) => {
     const { correo } = req.params;
@@ -214,6 +228,7 @@ router.get('/usuariosMP/:email', (req, res)=>{
 
 });
 
+// Actualizar dinero del usuario
 router.put('/usuarios/actualizarDinero/:correo', (req, res) => {
     const { correo } = req.params;
     const { nuevoMonto } = req.body;
@@ -231,6 +246,22 @@ router.put('/usuarios/actualizarDinero/:correo', (req, res) => {
         res.json(usuarioActualizado); 
     })
     .catch((error) => res.status(500).json({ message: 'Error al actualizar el dinero.', error }));
+});
+
+//cambiar el rol 
+router.put('/usuarios/cambiarRol/:correo', (req, res) => {
+    const { correo } = req.params;
+    const { nuevoRol } = req.body;
+    esquemaUsuario.findOneAndUpdate({ email: correo },          
+        { $set: { rol: nuevoRol } } 
+    )
+    .then((usuarioActualizado) => {
+        if (!usuarioActualizado) {
+            return res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+        res.json(usuarioActualizado);
+    }
+    )
 });
 
 module.exports = router;
