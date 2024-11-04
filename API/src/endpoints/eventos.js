@@ -55,11 +55,8 @@ router.put('/eventos/estado/:id', (req, res) => {
 router.post('/eventos/agregarusuario/:id', (req, res) => {
     const { email } = req.body;
     const { id} = req.params;
-    console.log(id);
-    console.log(email);
     esquemaEvento.findById(id)
-        .then((evento) => { //revisa que el usuario no este ya en el evento
-            console.log(evento);
+        .then((evento) => { 
             if (evento.participantes.length > 0) {
                 for (let i = 0; i < evento.participantes.length; i++) {
                     if (evento.participantes[i] == email) {

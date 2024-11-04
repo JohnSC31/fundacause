@@ -130,31 +130,6 @@ router.delete('/eliminarMiembroP', (req, res) => {
         });
 });
 
-// Informe general de todos los mentorias
-router.get('/informe-general', (req, res) => {
-    esquemaMentoria.find()
-        .then(mentorias => {
-            let totalToDo = 0;
-            let totalInProgress = 0;
-            let totalFinished = 0;
-
-            mentorias.forEach(mentoria => {
-                totalToDo += mentoria.tareas.filter(tarea => tarea.estado === 'Pendiente').length;
-                totalInProgress += mentoria.tareas.filter(tarea => tarea.estado === 'En curso').length;
-                totalFinished += mentoria.tareas.filter(tarea => tarea.estado === 'Finalizada').length;
-            });
-
-            const data = {
-                totalPorHacer: totalToDo,
-                totalEnProgreso: totalInProgress,
-                totalFinalizadas: totalFinished
-            };
-
-            res.json(data);
-        })
-        .catch(error => res.json(error));
-});
-
 
 // actualizar montoReca
 router.put('/mentorias/actualizarMonto/:id', async (req, res) => {
