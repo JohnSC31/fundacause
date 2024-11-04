@@ -938,10 +938,21 @@ body#profile .profile-main .mentorship{
     padding: 1rem;
     background-color: var(--LIGHTGREEN);
     border-radius: var(--radius);
+    margin-top: 1rem;
 }
 body#profile .profile-main .mentorship-header{
    margin-bottom: 1rem;
    font-weight: bold;
+}
+
+body#profile .profile-main .mentorship-footer{  
+    justify-content: end;
+}
+
+body#profile .profile-main .mentorship-footer p{
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
 }
 
 /* ---- PROJECTS ------------ */

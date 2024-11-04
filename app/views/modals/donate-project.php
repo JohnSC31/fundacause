@@ -29,7 +29,7 @@
             
 
             <p class="description"><?php echo $proyect['descripcion']; ?></p>
-            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <span id="projectAmount"><?php echo $proyect['montoReca']; ?></span></p>
+            <p class="donated"><i class="fa-solid fa-dollar-sign"></i> <span id="projectAmount"><?php echo $proyect['montoReca']; ?></span>/<?php echo $proyect['objetivoF']; ?></p>
         </div>
 
         <?php if(isset($_SESSION['USER'])) { ?>

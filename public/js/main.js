@@ -34,6 +34,11 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       
       // solicitar mentoria
       $("body").on("submit", "form#mentory-form", requestMentoring);
+
+      // completar mentoria
+      $("body").on("click", "[complete-mentorship]", completeMentorship); 
+      // eliminar mentoria
+      $("body").on("click", "[delete-mentorship]", deleteMentorship);
       
       
 
@@ -52,7 +57,7 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       if($("body").attr('id') === "profile"){
         loadUserDonation();
         loadUserProyects();
-        loadMentorshipsMentor();
+        loadProfileMentorships();
         
       }
 
@@ -470,7 +475,6 @@ async function requestMentoring(e){
   const input_mentor_email = $('input#mentor-email');
   const input_date = $('input#date');
   const input_description = $('textarea#description');
-  const input_id_project = $('input#idProject');
 
   // validan los datos
   if(!validEmail(input_mentor_email.val())) return false;
@@ -487,9 +491,11 @@ async function requestMentoring(e){
 
   const formData = new FormData();
   formData.append('correoMentor', input_mentor_email.val());
-  formData.append('fecha', input_date.val());
   formData.append('descripcion', input_description.val());
-  formData.append('proyectoId', input_id_project.val());
+  formData.append('precio', "100");
+  formData.append('fechayHora', input_date.val());
+  formData.append('estado', "Pendiente");
+  
   
 
   formData.append('ajaxMethod', "requestMentoring");  
@@ -498,22 +504,60 @@ async function requestMentoring(e){
   showNotification(result.Message, result.Success, false);
 
   if(result.Success){
-    setTimeout(()=>{
-      window.location.href = URL_PATH + 'profile';
-    }, 1500)
+    // reset form
+    $('form#mentory-form')[0].reset();
+
+    // se cargan las mentorias
+    loadProfileMentorships();
+
+    // se actualiza la billetera
+    $('span#userAmount').text(result.Data);
+
   }
 
 }
 
 
 // cargar las mentorias de un mentor en el prefil
-async function loadMentorshipsMentor(e = false){
-  if(e) preventDefault();
+async function loadProfileMentorships(){
+
+  const formData = new FormData(); 
+  formData.append('ajaxMethod', "loadProfileMentorships");  
+
+  result = await ajaxHTMLRequest(formData, 'div#mentorships-profile-container');
+}
+
+// eliminar una mentoria
+async function deleteMentorship(e){
+  e.preventDefault();
 
   const formData = new FormData();
-  formData.append('ajaxMethod', "loadMentorshipsMentor");  
+  formData.append('id', $(this).attr('delete-mentorship'));
+  formData.append('ajaxMethod', "deleteMentorship");  
 
-  // result = await ajaxHTMLRequest(formData, 'div#mentorships-profile-container');
+  result = await ajaxRequest(formData);
+
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    loadProfileMentorships();
+  }
+}
+
+async function completeMentorship(e){
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('id', $(this).attr('complete-mentorship'));
+  formData.append('ajaxMethod', "completeMentorship");  
+
+  result = await ajaxRequest(formData);
+
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    loadProfileMentorships();
+  }
 }
 
 ///////////// ************************ AJAX BACKEND CONN ************************ ///////////////

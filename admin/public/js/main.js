@@ -348,6 +348,12 @@ async function userAction(e){
     formData.append('ajaxMethod', "deleteUser"); 
   }
 
+  // hacer mentor
+  if(action === 'mentor'){
+    formData.append('email', $(this).attr('user-data'));
+    formData.append('ajaxMethod', "makeUserMentor"); 
+  }
+
   result = await ajaxRequest(formData);
 
   showNotification(result.Message, result.Success);

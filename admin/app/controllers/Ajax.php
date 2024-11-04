@@ -108,7 +108,9 @@
 
                         <div class="user-horizontal-item">
                             <div class="profile flex">
-                                <h2 class="<?php echo $user['estado'] == 'Inactivo' ? 'desactivated' : 'activated';?>"><i class="fa-solid fa-circle-user"></i></h2>
+                                <h2 class="<?php echo $user['estado'] == 'Inactivo' ? 'desactivated' : 'activated';?>">
+                                    <?php echo $user['rol'] === 'mentor' ? '<i class="fa-solid fa-user-tie"></i>' : '<i class="fa-solid fa-circle-user"></i>';?>
+                                </h2>
                                 <div>
                                     <p class="name"><?php echo $user['name']; ?></p>
                                     <p class="email"><?php echo $user['email']; ?></p>
@@ -120,7 +122,9 @@
                             </div>
                             <div class="action-container flex align-center">
                                 <?php if(in_array('usuario', $rols) || in_array('mentor', $rols)): ?>
-                                    <button class="btn btn-lightgreen"><i class="fa-solid fa-school"></i> Hacer mentor</button>
+                                    <?php if($user['rol'] === 'usuario'): ?>
+                                        <button class="btn btn-lightgreen" user-action="mentor" user-data="<?php echo $user['email']; ?>"><i class="fa-solid fa-user-tie"></i> Hacer mentor</button>
+                                    <?php endif; ?>
                                     <button class="btn btn-green" user-action="<?php echo $user['estado'] == 'Activo' ? 'desactivate' : 'activate';?>" user-data="<?php echo $user['email']; ?>" ><i class="fa-solid fa-power-off"></i> <?php echo $user['estado'] == 'Activo' ? 'Desactivar' : 'Activar';?></button>
                                     <button class="btn btn-black" user-action="delete" user-data="<?php echo $user['_id']; ?>"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
                                 <?php else: ?>
@@ -184,6 +188,21 @@
             // retornar el resultado
             if($api->getStatus() === 200){
                 $this->ajaxRequestResult(true, "Se ha eliminado correctamente");
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+        }
+
+        private function makeUserMentor($user){
+
+            $newRol = array('nuevoRol' => 'mentor');
+
+            $api = new Api('/usuarios/cambiarRol/'.$user['email'], 'PUT', $newRol);
+            $api->callApi();
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha hecho mentor correctamente");
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
             }
