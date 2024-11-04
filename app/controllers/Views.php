@@ -67,6 +67,12 @@
             $this->loadView('pages/project', $data); // se carga la vista necesaria
         }
 
+        // CARGA DE proyecto
+        public function events(){
+            $data = $this->getPageData('events','Registrate en un evento');
+            $this->loadView('pages/events', $data); // se carga la vista necesaria
+        }
+
 
     }
 

@@ -40,6 +40,9 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       // eliminar mentoria
       $("body").on("click", "[delete-mentorship]", deleteMentorship);
       
+      // registrar usuario a evento
+      $("body").on("click", "[register-event]", registerUserEvent); 
+      
       
 
       if($("body").attr('id') === "home"){
@@ -59,6 +62,10 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
         loadUserProyects();
         loadProfileMentorships();
         
+      }
+
+      if($("body").attr('id') === "events"){
+        loadEvents();
       }
 
       
@@ -557,6 +564,36 @@ async function completeMentorship(e){
 
   if(result.Success){
     loadProfileMentorships();
+  }
+}
+
+
+// --------------- EVENTOS ------------------------
+
+// cargar eventos
+async function loadEvents(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData(); 
+  formData.append('ajaxMethod', "loadEvents"); 
+   
+
+  result = await ajaxHTMLRequest(formData, 'div#events-list-container');
+}
+
+async function registerUserEvent(e = false){
+  if(e) e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('id', $(this).attr('register-event'));
+  formData.append('ajaxMethod', "registerUserEvent");  
+
+  result = await ajaxRequest(formData);
+
+  showNotification(result.Message, result.Success, false);
+
+  if(result.Success){
+    loadEvents();
   }
 }
 

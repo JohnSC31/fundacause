@@ -454,6 +454,59 @@
             }
         }
         
+        private function loadEvents(){
+
+            // verificar credenciales 
+            $api = new Api('/eventos/', 'GET');
+            $api->callApi();
+            // establecer la sesion
+            if(!$api->getStatus() === 200){
+            return;
+            }
+
+            $events = $api->getResult();
+            foreach ($events as $key => $event) { ?>
+                <div class="event">
+                    <div class="header">
+                        <h2 class="txt-center"><i class="fa-solid fa-champagne-glasses"></i></h2>
+                        <p class="txt-center"><?php echo $event['correoHost']; ?></p>
+                    </div>
+                    <div class="event-info">
+                        <p class="event-name txt-center"><?php echo $event['descripcion']; ?></p>
+                        <div class="about-banner flex flex-space">
+                            <p class="modality"><?php echo $event['modalidad']; ?></p>
+                            <p class="date"><?php echo date('d/m/Y', strtotime($event['fechaHora'])); ?> </p>
+                        </div>
+                        
+                        <p class="materials"><?php echo $event['materiales']; ?></p>
+
+                        <?php if(isset($_SESSION['USER']) && !in_array($_SESSION['USER']['email'], $event['participantes'])): ?>
+                            <div class="actions flex">
+                                <button class="btn btn-black" register-event="<?php echo $event['_id']?>">Registrarme</button>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+            <?php }
+        }
+
+        private function registerUserEvent($event){
+
+            $user = array('email' => $_SESSION['USER']['email']);
+
+            $api = new Api('/eventos/agregarusuario/'. $event['id'], 'POST', $user);
+            $api->callApi();
+            
+            // iniciar sesion
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente");
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+        }
     }
 
 
