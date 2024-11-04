@@ -176,14 +176,14 @@
                 $this->ajaxRequestResult(false, "No tiene fondos suficientes para la donacion");
             }else{
                 // se actualiza el dinero del donante
-                $user['dineroInicial'] = $_SESSION['USER']['dineroInicial'] - intval($donation['monto']);
+                $user = array('nuevoMonto' => $_SESSION['USER']['dineroInicial'] - intval($donation['monto']));
                     
                 $api = new Api('/usuarios/actualizarDinero/'.$_SESSION['USER']['email'], 'PUT', $user);
                 $api->callApi();
 
                 // retornar el resultado
                 if($api->getStatus() === 200){
-                    $_SESSION['USER']['dineroInicial'] = $user['dineroInicial']; // se actualiza la sesion
+                    $_SESSION['USER']['dineroInicial'] = $user['nuevoMonto']; // se actualiza la sesion
 
                     // SE REALIZA LA DONACION
                     // agregar datos del donante
@@ -213,7 +213,7 @@
                         if(!$api->getStatus() === 200){
                             $this->ajaxRequestResult(false, "Ha ocurrido un error al actualiza el monto del proyecto", $api->getError());
                         }else{
-                            $this->ajaxRequestResult(true, $api->getApiStatus(), array('wallet' => $user['dineroInicial'], 'newProjectAmount'=> $nuevoMonto['montoReca']));
+                            $this->ajaxRequestResult(true, "Se ha donado correctamente", array('wallet' => $user['nuevoMonto'], 'newProjectAmount'=> $nuevoMonto['montoReca']));
                         }
                         
                     }else{
@@ -233,9 +233,6 @@
         private function requestMentoring($mentorship){
 
             $mentorship['correoUsuario'] = $_SESSION['USER']['email'];
-            $mentorship['precio'] = 100;
-            $mentorship['pagoRealizado'] = true;
-            $mentorship['estado'] = 'Pendiente';
 
             // verificar si el mentor existe
             $api = new Api('/usuarios/correo/'.$mentorship['correoMentor'], 'GET');
@@ -256,23 +253,23 @@
             }
             
             // se rebajan
-            // se actualiza el dinero del donante
-            $user['dineroInicial'] = $_SESSION['USER']['dineroInicial'] - intval($mentorship['monto']);
+            // se actualiza el dinero del usuario
+            $user = array('nuevoMonto' => $_SESSION['USER']['dineroInicial'] - intval($mentorship['precio']));
             
             $api = new Api('/usuarios/actualizarDinero/'.$_SESSION['USER']['email'], 'PUT', $user);
             $api->callApi();
 
             // retornar el resultado
             if($api->getStatus() === 200){
-                $_SESSION['USER']['dineroInicial'] = $user['dineroInicial']; // se actualiza la sesion
+                $_SESSION['USER']['dineroInicial'] = $user['nuevoMonto']; // se actualiza la sesion
 
                 // se crea la mentoria
-                $api = new Api('/mentorias', 'POST', $memtorship);
+                $api = new Api('/mentorias', 'POST', $mentorship);
                 $api->callApi();
                 
                 if($api->getStatus() === 200){
                     // se crea la mentoria
-                    $this->ajaxRequestResult(false, "Se ha creado la mentoria correctamente");
+                    $this->ajaxRequestResult(true, "Se ha creado la mentorias correctamente", $user['nuevoMonto']);
 
                 }else{
                     $this->ajaxRequestResult(false, "Error al crear la mentoria");
@@ -283,6 +280,88 @@
             }
 
             
+        }
+
+        // cargar las mentorias del perfil
+        private function loadProfileMentorships(){
+
+            $endPoint = $_SESSION['USER']['rol'] !== 'mentor' ? 'mentoriasPorCorreoU': 'mentoriasPorCorreoM'; 
+
+            $api = new Api('/'.$endPoint.'/'.$_SESSION['USER']['email'], 'GET');
+
+            $api->callApi();
+
+            $mentorships = $api->getResult();
+
+            if(!is_null($mentorships) && count($mentorships) > 0){
+
+                foreach($mentorships as $index => $mentorship): ?>
+
+                    <div class="mentorship">
+                        <div class="mentorship-header flex flex-space">
+                            <p><?php echo $_SESSION['USER']['rol'] !== 'mentor' ? $mentorship['correoMentor'] : $mentorship['correoUsuario'] ; ?></p>
+                            <p><?php echo date('d/m/Y', strtotime($mentorship['fechayHora'])); ?></p>
+                        </div>
+                        <p class="txt-center"><?php echo $mentorship['descripcion']; ?></p>
+                        <div class="mentorship-footer flex">
+                            <p class="status"><?php echo $mentorship['estado']; ?></p>
+                        </div>
+                        
+                            <div class="mentorship-actions flex">
+                                <?php if($_SESSION['USER']['rol'] === 'mentor'): ?>
+                                    <?php if($mentorship['estado'] !== 'Completado') { ?>
+                                        <button class="btn btn-grey" complete-mentorship="<?php echo $mentorship['_id'];?>" >Completar</button>
+                                    <?php } ?>
+                                <?php else: ?>
+                                    <button class="btn btn-black" delete-mentorship="<?php echo $mentorship['_id'];?>">Eliminar</button>
+                                <?php endif; ?>
+                            </div>
+    
+                        
+                    </div>
+    
+                <?php endforeach;
+
+            }else{ ?>
+                <div class="mentorship">
+                    <p class="txt-center">No hay mentorias</p>
+                </div>
+            <?php }
+            
+        }
+
+        // eliminar una mentoria
+        private function deleteMentorship($mentorship){
+
+            $api = new Api('/mentorias/'.$mentorship['id'], 'DELETE');
+            $api->callApi();
+
+            $result = $api->getResult();
+
+            if($api->getStatus() !== 200){
+                $this->ajaxRequestResult(false, "Error al eliminar la mentoria");
+                return;
+            }
+            
+            $this->ajaxRequestResult(true, "Se ha eliminado la mentoria");
+        }
+
+        // completar una mentoria
+        private function completeMentorship($mentorship){
+
+            $estado = array('estado' => 'Completado');
+
+            $api = new Api('/mentorias/estado/'.$mentorship['id'], 'PUT', $estado);
+            $api->callApi();
+
+            $result = $api->getResult();
+
+            if($api->getStatus() !== 200){
+                $this->ajaxRequestResult(false, "Error al completar la mentoria");
+                return;
+            }
+            
+            $this->ajaxRequestResult(true, "Se ha completado la mentoria");
         }
 
         private function getUsers($post){
@@ -374,47 +453,60 @@
                 <?php }
             }
         }
+        
+        private function loadEvents(){
 
-        // cargar mentorias de mentor en perfil
-        private function loadMentorshipsMentor(){
-            // falta por implementar
-            $api = new Api('/mentorias/'.$_SESSION['USER']['email'], 'GET');
+            // verificar credenciales 
+            $api = new Api('/eventos/', 'GET');
             $api->callApi();
+            // establecer la sesion
+            if(!$api->getStatus() === 200){
+            return;
+            }
 
-            $mentorships = $api->getResult();
-
-            var_dump($mentorships);
-
-            if($api->getStatus() !== 200 || is_null($mentorships)){ ?>
-                <div class="mentorship">
-                    <p class="txt-center">Error al cargar las mentorias</p>
-                </div>
-
-            <?php }else if(count($mentorships) > 0){
-
-                foreach ($mentorships as $key => $mentorship) { ?>
-                   <div class="mentorship">
-                        <div class="mentorship-header flex flex-space">
-                            <p><?php echo $mentorship['correoUsuario']; ?></p>
-                            <p><?php echo $mentorship['fecha']; ?></p>
-                        </div>
-                        <p class="txt-center"><?php echo $mentorship['descripcion']?></p>
+            $events = $api->getResult();
+            foreach ($events as $key => $event) { ?>
+                <div class="event">
+                    <div class="header">
+                        <h2 class="txt-center"><i class="fa-solid fa-champagne-glasses"></i></h2>
+                        <p class="txt-center"><?php echo $event['correoHost']; ?></p>
                     </div>
-                <?php }
+                    <div class="event-info">
+                        <p class="event-name txt-center"><?php echo $event['descripcion']; ?></p>
+                        <div class="about-banner flex flex-space">
+                            <p class="modality"><?php echo $event['modalidad']; ?></p>
+                            <p class="date"><?php echo date('d/m/Y', strtotime($event['fechaHora'])); ?> </p>
+                        </div>
+                        
+                        <p class="materials"><?php echo $event['materiales']; ?></p>
 
-            }else{ ?>
-                <div class="mentorship">
-                    <p class="txt-center">No hay mentorias</p>
+                        <?php if(isset($_SESSION['USER']) && !in_array($_SESSION['USER']['email'], $event['participantes'])): ?>
+                            <div class="actions flex">
+                                <button class="btn btn-black" register-event="<?php echo $event['_id']?>">Registrarme</button>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
                 </div>
             <?php }
+        }
 
-            {
+        private function registerUserEvent($event){
 
+            $user = array('email' => $_SESSION['USER']['email']);
 
-                
+            $api = new Api('/eventos/agregarusuario/'. $event['id'], 'POST', $user);
+            $api->callApi();
+            
+            // iniciar sesion
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha registrado correctamente");
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
             }
         }
-        
     }
 
 

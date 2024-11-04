@@ -307,6 +307,12 @@ function adminNavigation(option){
   if($(option).attr("data-admin-nav") === 'donations'){
     loadDonations();
   }
+
+  if($(option).attr("data-admin-nav") === 'events'){
+    // se cargan los administradores
+    loadEvents();
+  }
+  
 }
 
 // ------------------------- CARGAR A LOS USUARIOS
@@ -346,6 +352,12 @@ async function userAction(e){
     if(!confirm('Desea eliminar al usuario permanentemente')) return;
     formData.append('id', $(this).attr('user-data'));
     formData.append('ajaxMethod', "deleteUser"); 
+  }
+
+  // hacer mentor
+  if(action === 'mentor'){
+    formData.append('email', $(this).attr('user-data'));
+    formData.append('ajaxMethod', "makeUserMentor"); 
   }
 
   result = await ajaxRequest(formData);
@@ -457,16 +469,16 @@ async function createEvent(e){
   e.preventDefault();
 
   // campos
-  const input_name = $('input#name');
-  const input_date = $('input#date');
-  const input_price = $('input#price');
+  const input_name = $('input#event-name');
+  const input_date = $('input#event-date');
+  // const input_price = $('input#price');
 
   const select_modality = $('select#select-modality');
   const textarea_description = $('textarea#description');
 
   // validacion
   if(!validInput(input_name.val(), false, "Ingrese un nombre")) return false;
-  if(!validInput(input_price.val(), false, "Ingrese un objetivo de recaudacion")) return false;
+  // if(!validInput(input_price.val(), false, "Ingrese un objetivo de recaudacion")) return false;
   if(!validInput(input_date.val(), false, "Ingrese una fecha limite")) return false;
 
   // validacion fecha futura
@@ -483,11 +495,10 @@ async function createEvent(e){
 
   // form data
   const formData = new FormData();
-  formData.append('name', input_name.val());
-  formData.append('fecha', input_date.val());
-  formData.append('precio', input_price.val());
+  formData.append('descripcion', input_name.val());
+  formData.append('fechaHora', input_date.val());
   formData.append('modalidad', select_modality.val());
-  formData.append('descripcion', textarea_description.val());
+  formData.append('materiales', textarea_description.val());
 
 
   formData.append('ajaxMethod', "createEvent");
@@ -496,9 +507,38 @@ async function createEvent(e){
   showNotification(result.Message, result.Success, false);
 
   if(result.Success){
-    loadUserProyects(); // se actualiza en la lista
+    $('form#create-event-form')[0].reset();
+    loadEvents(); // se actualiza en la lista
   }
 }
+
+// cargar eventos
+async function loadEvents(e = false){
+  if(e) preventDefault();
+
+  const formData = new FormData(); 
+  formData.append('ajaxMethod', "loadEvents"); 
+   
+
+  result = await ajaxHTMLRequest(formData, 'div#events-list-container');
+}
+
+// eliminar un evento
+// async function deleteEvent(){
+//   if(!confirm('Desea eliminar el evento permanentemente')) return;
+//   // form data
+//   const formData = new FormData();
+
+//   formData.append('ajaxMethod', "deleteEvent");
+
+//   result = await ajaxRequest(formData);
+//   showNotification(result.Message, result.Success, false);
+
+//   if(result.Success){
+//     loadEvents(); // se actualiza en la lista
+//   }
+
+// }
 
 ///////////// ************************ AJAX BACKEND CONN ************************ ///////////////
 // FUNCION QUE REALIZA LA CONECCION CON EL BACKEND

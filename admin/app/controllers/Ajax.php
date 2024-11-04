@@ -108,7 +108,9 @@
 
                         <div class="user-horizontal-item">
                             <div class="profile flex">
-                                <h2 class="<?php echo $user['estado'] == 'Inactivo' ? 'desactivated' : 'activated';?>"><i class="fa-solid fa-circle-user"></i></h2>
+                                <h2 class="<?php echo $user['estado'] == 'Inactivo' ? 'desactivated' : 'activated';?>">
+                                    <?php echo $user['rol'] === 'mentor' ? '<i class="fa-solid fa-user-tie"></i>' : '<i class="fa-solid fa-circle-user"></i>';?>
+                                </h2>
                                 <div>
                                     <p class="name"><?php echo $user['name']; ?></p>
                                     <p class="email"><?php echo $user['email']; ?></p>
@@ -120,7 +122,9 @@
                             </div>
                             <div class="action-container flex align-center">
                                 <?php if(in_array('usuario', $rols) || in_array('mentor', $rols)): ?>
-                                    <button class="btn btn-lightgreen"><i class="fa-solid fa-school"></i> Hacer mentor</button>
+                                    <?php if($user['rol'] === 'usuario'): ?>
+                                        <button class="btn btn-lightgreen" user-action="mentor" user-data="<?php echo $user['email']; ?>"><i class="fa-solid fa-user-tie"></i> Hacer mentor</button>
+                                    <?php endif; ?>
                                     <button class="btn btn-green" user-action="<?php echo $user['estado'] == 'Activo' ? 'desactivate' : 'activate';?>" user-data="<?php echo $user['email']; ?>" ><i class="fa-solid fa-power-off"></i> <?php echo $user['estado'] == 'Activo' ? 'Desactivar' : 'Activar';?></button>
                                     <button class="btn btn-black" user-action="delete" user-data="<?php echo $user['_id']; ?>"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
                                 <?php else: ?>
@@ -189,19 +193,82 @@
             }
         }
 
+        private function makeUserMentor($user){
+
+            $newRol = array('nuevoRol' => 'mentor');
+
+            $api = new Api('/usuarios/cambiarRol/'.$user['email'], 'PUT', $newRol);
+            $api->callApi();
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha hecho mentor correctamente");
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+        }
+
         private function createEvent($event){
+
+            $event['correoHost'] = $_SESSION['ADMIN']['email'];
+            $event['participantes'] = [];
             // Registro en la base de datos
             $api = new Api('/eventos/', 'POST', $event);
             $api->callApi();
 
             // retornar el resultado
             if($api->getStatus() === 200){
-                $this->ajaxRequestResult(true, "Se ha creado el evento correctamente");
+                $this->ajaxRequestResult(true, "Se ha creado el evento correctamente", $api->getApiStatus());
             }else{
                 $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
             }
         }
 
+        private function loadEvents(){
+
+            // verificar credenciales 
+            $api = new Api('/eventos/', 'GET');
+            $api->callApi();
+            // establecer la sesion
+            if(!$api->getStatus() === 200){
+            return;
+            }
+
+            $events = $api->getResult();
+            foreach ($events as $key => $event) { ?>
+                <div class="event">
+                    <div class="header">
+                        <h2 class="txt-center"><i class="fa-solid fa-champagne-glasses"></i></h2>
+                        <p class="txt-center"><?php echo $event['correoHost']; ?></p>
+                    </div>
+                    <div class="event-info">
+                        <p class="event-name txt-center"><?php echo $event['descripcion']; ?></p>
+                        <div class="about-banner flex flex-space">
+                            <p class="modality"><?php echo $event['modalidad']; ?></p>
+                            <p class="date"><?php echo date('d/m/Y', strtotime($event['fechaHora'])); ?> </p>
+                        </div>
+                        
+                        <p class="materials"><?php echo $event['materiales']; ?></p>
+
+                    </div>
+                </div>
+            <?php }
+        }
+
+        private function deleteEvent($event){
+
+
+            // Registro en la base de datos
+            $api = new Api('/eventos/', 'DELETE', $event);
+            $api->callApi();
+
+            // retornar el resultado
+            if($api->getStatus() === 200){
+                $this->ajaxRequestResult(true, "Se ha creado el evento correctamente", $api->getApiStatus());
+            }else{
+                $this->ajaxRequestResult(false, "Ha ocurrido un error", $api->getError());
+            }
+        }
 
         private function loadDonations($post){
 

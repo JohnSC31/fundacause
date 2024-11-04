@@ -627,9 +627,6 @@ section.project-list .filters input{
 }
 
 div.project-list-container{
-    /* padding: 2rem 0; */
-
-    /* list display */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -938,10 +935,21 @@ body#profile .profile-main .mentorship{
     padding: 1rem;
     background-color: var(--LIGHTGREEN);
     border-radius: var(--radius);
+    margin-top: 1rem;
 }
 body#profile .profile-main .mentorship-header{
    margin-bottom: 1rem;
    font-weight: bold;
+}
+
+body#profile .profile-main .mentorship-footer{  
+    justify-content: end;
+}
+
+body#profile .profile-main .mentorship-footer p{
+    background-color: var(--GREEN);
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
 }
 
 /* ---- PROJECTS ------------ */
@@ -1049,4 +1057,67 @@ div.modal-donate-project div.user-wallet input{
     border: none;
     margin-bottom: 2rem;
     text-align: center;
+}
+
+/* ------------------- PAGINA DE EVENTOS --------------------------- */
+body#events div.events-content-container{
+    padding: 4rem 0;
+}
+body#events div.events-list-container{
+    padding: 2rem 0;
+}
+
+/* LISTA DE EVENTOS */
+div.events-list-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Project */
+div.event{
+    border-radius: var(--radius);
+    border: 2px solid var(--GREEN);
+    overflow: hidden;
+    background-color: var(--LIGHTGREEN);
+    margin-top: 2rem;
+    flex: 0 0 calc(33.3% - 1rem);
+    color: var(--BLACK)!important;
+    padding: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+    div.event{
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media only screen and (max-width: 420px) {
+    div.event{
+        flex: 0 0 calc(100% - 1rem);
+    }
+}
+
+div.event .event-header{
+    padding: 1rem 0;
+}
+
+div.event p.event-name{
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+div.event p.modality,
+div.event p.date{
+    background-color: var(--WHITE);
+    border-radius: var(--radius);
+    padding: 0 .5rem;
+    font-weight: bold;
+}
+
+div.event p.materials{
+    margin: 1rem 0;
+}
+
+div.event .actions{
+    justify-content: center;
 }

@@ -1,6 +1,6 @@
 <div class="profile container">
     <h1 class="page-title">Perfil</h1> 
-    <?php var_dump($_SESSION['USER']); ?> 
+    
 
     <div class="profile-content">
         <div class="profile-sidebar">
@@ -14,9 +14,6 @@
 
                 <p><i class="fa-solid fa-briefcase"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['areaTrabajo']; ?></p>
                 <p><i class="fa-solid fa-phone"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['telefono']; ?></p>
-                <div class="user-action flex align-center">
-                    <button class="btn btn-black" data-modal="edit-user"><i class="fa-solid fa-user-pen"></i>Editar</button>
-                </div>
             </div>
 
             <div class="donation-history">
@@ -42,7 +39,40 @@
             </div>
 
             <div class="mentorships">
-                <h3>Mentorias pendientes</h3>
+                <?php if($_SESSION['USER']['rol'] !== 'mentor') : ?>
+                   
+                    <div class="request-mentory-form-container">
+                        <h3 class="txt-center">Solicitar mentoria $100</h3>
+                        <form action="" method="post" id="mentory-form">
+                            <div class="col_2">
+                                <div class="col">
+                                    <div class="field">
+                                        <label for="mentor">Email mentor</label>
+                                        <input type="email" name="mentor" id="mentor-email" maxlength="35">
+                                    </div>
+                                    <div class="field">
+                                        <label for="mentorship-date">Fecha</label>
+                                        <input type="datetime-local" name="mentorship-date" id="date">
+                                    </div>
+                                </div><!-- col -->
+                                <div class="col">
+                                    <div class="field">
+                                        <label for="pass">Descripción</label>
+                                        <textarea name="description" id="description" cols="30" rows="5" require maxlength="150"></textarea>
+                                    </div>
+                                </div><!-- col -->
+                            </div>
+                            
+                            <div class="submit">
+                                <input type="submit" class="btn btn-green" value="Solicitar">
+                            </div>
+                        </form>
+                    </div>
+
+                <?php endif; ?>
+
+                <h3><?php echo $_SESSION['USER']['rol'] !== 'mentor' ? 'Mis mentorias': 'Mentorias pendientes' ; ?></h3>
+
                 <div class="mentorships-container" id="mentorships-profile-container">
                     <div class="mentorship">
                         <div class="mentorship-header flex flex-space">
@@ -50,6 +80,9 @@
                             <p>12/6/2024</p>
                         </div>
                         <p class="txt-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, aliquid nulla. Nemo non error, dolores quasi ullam consequatur earum rem de.</p>
+                        <div class="mentorship-footer flex">
+                            <p class="status">Pendiente</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -60,41 +60,6 @@
                 
             </div>
         </form>
-
-            <!-- mentoria= {
-                correoMentor:    	(str, required),
-                descripcion:	(str, required),
-                precio: 	(str, required), fijo
-                correoUsuario:(str, required),
-                proyectoId: 	(str, required),
-                fecha:	(Date, required),
-                pagoRealizado:	(boolean, required)
-            } -->
-        <h3 class="txt-center">Solicitar mentoria $100</h3>
-        <form action="" method="post" id="mentory-form">
-            <div class="col_2">
-                <div class="col">
-                    <div class="field">
-                        <label for="mentor">Email mentor</label>
-                        <input type="email" name="mentor" id="mentor-email" maxlength="35">
-                    </div>
-                    <div class="field">
-                        <label for="mentorship-date">Fecha</label>
-                        <input type="date" name="mentorship-date" id="date">
-                    </div>
-                </div><!-- col -->
-                <div class="col">
-                    <div class="field">
-                        <label for="pass">Descripción</label>
-                        <textarea name="description" id="description" cols="30" rows="5" require maxlength="150"></textarea>
-                    </div>
-                </div><!-- col -->
-            </div>
-            
-            <div class="submit">
-                <input type="submit" class="btn btn-green" value="Solicitar">
-            </div>
-        </form>
       
     </div><!-- .modal-content -->
 </div>
