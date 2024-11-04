@@ -10,6 +10,20 @@ router.get('/usuarios', (req, res) => {
         .catch((error) => res.json(error));
 });
 
+// lista de mentores
+router.get('/usuarios/mentores', (req, res) => {
+    let correosMentores = []
+    esquemaUsuario.find({rol: "mentor"}).then(usuarios => {
+        usuarios.forEach(usuario => {
+            correosMentores.push(usuario.email)
+        });
+        res.json(correosMentores);
+    }).catch(error => {
+        res.json(error);
+    });
+    
+});
+
 // Trae los usuarios por correo
 router.get('/usuarios/correo/:correo', (req, res) => {
     const { correo } = req.params;
@@ -233,5 +247,7 @@ router.put('/usuarios/actualizarDinero/:correo', (req, res) => {
     })
     .catch((error) => res.status(500).json({ message: 'Error al actualizar el dinero.', error }));
 });
+
+
 
 module.exports = router;
