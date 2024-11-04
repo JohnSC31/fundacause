@@ -1,6 +1,6 @@
 <div class="profile container">
     <h1 class="page-title">Perfil</h1> 
-    <?php var_dump($_SESSION['USER']); ?> 
+    
 
     <div class="profile-content">
         <div class="profile-sidebar">
@@ -14,9 +14,6 @@
 
                 <p><i class="fa-solid fa-briefcase"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['areaTrabajo']; ?></p>
                 <p><i class="fa-solid fa-phone"></i> <?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['telefono']; ?></p>
-                <div class="user-action flex align-center">
-                    <button class="btn btn-black" data-modal="edit-user"><i class="fa-solid fa-user-pen"></i>Editar</button>
-                </div>
             </div>
 
             <div class="donation-history">

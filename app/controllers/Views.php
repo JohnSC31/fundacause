@@ -45,24 +45,28 @@
 
         // CARGA DE REGISTRO
         public function signup(){
+            if(isset($_SESSION['USER']['SESSION'])) header('Location:'.URL_PATH."profile");
             $data = $this->getPageData('signup','Registro De usuario');
             $this->loadView('pages/signup', $data); // se carga la vista necesaria
         }
 
         // CARGA DE LOGIN
         public function login(){
+            if(isset($_SESSION['USER']['SESSION'])) header('Location:'.URL_PATH."profile");
             $data = $this->getPageData('login','Iniciar Sesion');
             $this->loadView('pages/login', $data); // se carga la vista necesaria
         }
 
         // CARGA DE profile
         public function profile(){
+            if(!isset($_SESSION['USER']['SESSION'])) header('Location:'.URL_PATH."signup");
             $data = $this->getPageData('profile','Perfil de usuario');
             $this->loadView('pages/profile', $data); // se carga la vista necesaria
         }
 
         // CARGA DE proyecto
         public function project(){
+            if(!isset($_SESSION['USER']['SESSION'])) header('Location:'.URL_PATH."signup");
             $data = $this->getPageData('project','Crear un proyecto');
             $this->loadView('pages/project', $data); // se carga la vista necesaria
         }

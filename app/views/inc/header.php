@@ -38,6 +38,7 @@
                 </a>
                 <nav class="navigation">
                     <ul>
+                    <li><a href="<?php echo URL_PATH; ?>events" class="btn btn-lightgreen"><i class="fa-solid fa-champagne-glasses"></i> <span class="hide_medium"> Eventos </span></a></li>
                         <?php if(!isset($_SESSION['USER']['SESSION'])){ ?>
                             <!-- BOTONES CUANDO NO HAY SESION -->
                             <li><a href="<?php echo URL_PATH; ?>signup" class="btn btn-lightgreen"><i class="fa-solid fa-user-plus"></i> <span class="hide_medium"> Registro </span></a></li>

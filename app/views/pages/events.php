@@ -5,7 +5,7 @@
 
     <div class="events-list-container" id="events-list-container">
 
-        <div class="event">
+        <!-- <div class="event">
             <div class="header">
                 <h2 class="txt-center"><i class="fa-solid fa-champagne-glasses"></i></h2>
                 <p class="txt-center">jostsace05@gmail.com</p>
@@ -23,7 +23,7 @@
                     <button class="btn btn-black" register-event="idevent">Registrarme</button>
                 </div>
             </div>
-        </div>
+        </div> -->
         
     </div>
 </div>
