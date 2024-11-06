@@ -205,15 +205,19 @@
 
                         $project = $api->getResult();
 
-                        $nuevoMonto['montoReca'] = intval($project['montoReca']) + intval($donation['monto']);
+                        $nuevoMontoProyecto = array(
+                            "id" => $donation['proyectoId'],
+                            "montoRecaS" => strval(intval($project['montoReca']) + intval($donation['monto']))
+                    
+                        );
                         
-                        $api = new Api('/proyectos/actualizarMonto/'.$donation['proyectoId'], 'PUT', $nuevoMonto);
+                        $api = new Api('/proyectos/actualizarMonto/', 'PUT', $nuevoMontoProyecto);
                         $api->callApi();
 
                         if(!$api->getStatus() === 200){
                             $this->ajaxRequestResult(false, "Ha ocurrido un error al actualiza el monto del proyecto", $api->getError());
                         }else{
-                            $this->ajaxRequestResult(true, "Se ha donado correctamente", array('wallet' => $user['nuevoMonto'], 'newProjectAmount'=> $nuevoMonto['montoReca']));
+                            $this->ajaxRequestResult(true, "Se ha donado correctamente", array('wallet' => $user['nuevoMonto'], 'newProjectAmount'=> $nuevoMontoProyecto['montoRecaS']));
                         }
                         
                     }else{

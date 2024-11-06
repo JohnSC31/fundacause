@@ -3,9 +3,11 @@
 <div class="hero flex align-center">
     <div class="container hero-content flex-col align-center">
         <h1>QUE EL ÚNICO LÍMITE DE TU PROYECTO SEA TU IMAGINACIÓN</h1>
-        <button class="btn btn-green">
-            <i class="fa-solid fa-lightbulb"></i> Publicar proyecto
-        </button>
+        <?php if(isset($_SESSION['USER'])): ?>
+            <a href="<?php echo URL_PATH; ?>project" class="btn btn-green"><i class="fa-solid fa-lightbulb"></i> <span class="hide_medium"> Publicar proyecto </span></a>
+        <?php else: ?>
+            <a href="<?php echo URL_PATH; ?>signup" class="btn btn-lightgreen"><i class="fa-solid fa-user-plus"></i> <span class="hide_medium"> Registrarme </span></a>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -28,7 +30,7 @@
         </div>
 
         <div class="project-list-container" id="proyects-home-container">
-            <?php for($i = 1; $i <= 8; $i++): ?>
+            <!-- <?php for($i = 1; $i <= 0; $i++): ?>
                 <div class="project" data-modal="donate-project">
                     <div class="img">
                         <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
@@ -40,7 +42,7 @@
                     </div>
                 </div><!-- .project -->
 
-            <?php endfor; ?>
+            <?php endfor; ?> -->
         </div>
     </div>
 </section>

@@ -629,7 +629,7 @@ section.project-list .filters input{
 div.project-list-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 /* Project */
@@ -639,6 +639,7 @@ div.project{
     overflow: hidden;
     background-color: var(--WHITE);
     margin-top: 2rem;
+    margin-left: 1rem;
     /* list display */
     flex: 0 0 calc(25% - 1rem);
     cursor: pointer;

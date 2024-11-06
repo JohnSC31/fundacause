@@ -375,7 +375,8 @@ async function newProjectForm(e){
   showNotification(result.Message, result.Success, false);
 
   if(result.Success){
-    loadUserProyects(); // se actualiza en la lista
+    if(input_action.val() == 'edit') loadUserProyects(); // se actualiza en la lista
+    if(input_action.val() == 'create') window.location.href = URL_PATH + 'profile'; // se actualiza en la lista
   }
 }
 
@@ -460,6 +461,7 @@ async function donateProject(e = false){
     $('span#projectAmount').text(result.Data.newProjectAmount); // se acutaliza el monto
     input_amount.val(''); // se acutaliza el monto
     input_comment.val(''); // se acutaliza el monto
+    loadProyectsHome();
   }
 
 }
