@@ -44,6 +44,22 @@ router.get('/proyectos/:correo', (req, res) => {
 
 });
 
+// agregar validacion
+router.post('/agregarValidacion/:id', (req, res) => {
+    const { id } = req.params;
+    const { idMentor } = req.body; 
+    esquemaProyecto.findById(id)
+    .then((proyecto) => {
+            proyecto.validaciones.push(idMentor);
+            proyecto.save()
+            .then(() => res.json({ mensaje: "Validacion agregada" }))
+            .catch((error) => res.json(error));
+        
+    }
+    )
+});
+
+
 //obtener lista de los Id de los proyectos
 router.get('/proyectosId', (req, res) => {
     let ids_proyec = [];
@@ -68,6 +84,31 @@ router.get('/proyectosID/:id', (req, res) => {
         .then((proyectos) => res.json(proyectos))
         .catch((error) => res.json(error));
 
+});
+
+//Cambiar estado del proyecto
+router.put('/proyectos/estado/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let estado ="Aprobado";
+        console.log(id);
+        // Asegurarse de esperar la resolución de la promesa
+        const proyectoActualizado = await esquemaProyecto.findByIdAndUpdate(
+            id,
+            { $set: { estado: estado } },
+            { new: true }
+        );
+
+        if (!proyectoActualizado) {
+            return res.status(404).json({ mensaje: 'Proyecto no encontrado' });
+        }
+
+        // Enviar respuesta como JSON
+        res.json(CircularJSON.stringify(proyectoActualizado));
+    } catch (error) {
+        console.error("Error al actualizar el proyecto:", error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
 });
 
 //actualizar un proyecto
