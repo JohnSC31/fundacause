@@ -41,7 +41,7 @@ const esquemaProyecto = mongoose.Schema({
         type: String,
         required: true
     },
-    validaciones:{  //poner como algo interno avalidaciones, mas atributos tipo usuario positiva o negativa
+    validaciones:{  
         type: [String],
         required: false
     },
