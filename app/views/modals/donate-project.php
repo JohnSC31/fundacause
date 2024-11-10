@@ -1,10 +1,12 @@
 
 <?php  
-   $api = new Api('/proyectosID/' . $data['data']['id'], 'GET');
+    $api = new Api('/proyectosID/' . $data['data']['id'], 'GET');
 
-   $api->callApi();
+    $api->callApi();
 
-   $proyect = $api->getResult();
+    $proyect = $api->getResult();
+
+    $numValidaciones = count($proyect['validaciones']);
 
    
 ?>
@@ -16,6 +18,31 @@
     </div>
 
     <div class="modal-content">
+        <div class="project-validacion">
+            <div class="valids">
+                <?php 
+                if($numValidaciones === 3){ ?>
+                    <p class="status"><?php echo $proyect['estado']; ?></p>
+
+                <?php }else{ ?> 
+                    <div class="checks-container" id="checks-container">
+
+                    
+                        <?php
+                            for($index = 0; $index < 3; $index++): ?>
+                                <i class="fa-solid fa-circle-check <?php echo $numValidaciones > 0 ? 'validated-icon' : "";?>"></i>
+                            <?php
+                                $numValidaciones--; 
+                            endfor;
+                        }?>
+                        
+                    </div>
+            </div>
+
+            <?php if(isset($_SESSION['USER']) && $_SESSION['USER']['rol'] === 'mentor' && !in_array($_SESSION['USER']['email'], $proyect['validaciones'])): ?>
+                <button class="btn btn-green" valid-proyect="<?php echo $proyect['_id']?>">Validar</button>
+            <?php endif; ?>
+        </div>
         <div class="img">
             <img src="<?php echo URL_PATH; ?>public/img/project.jpg" alt="">
         </div>
