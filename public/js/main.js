@@ -43,6 +43,8 @@ const AJAX_URL = URL_PATH + 'app/controllers/Ajax.php';
       // registrar usuario a evento
       $("body").on("click", "[register-event]", registerUserEvent); 
       
+      // validar un proyecto
+      $("body").on("click", "[valid-proyect]", validProject); 
       
 
       if($("body").attr('id') === "home"){
@@ -465,6 +467,35 @@ async function donateProject(e = false){
   }
 
 }
+
+async function validProject(e = false){
+  
+  if(e) e.preventDefault();
+
+  const idProject = $(this).attr('valid-proyect');
+
+  
+  const formData = new FormData();
+  formData.append('id', idProject);
+  formData.append('ajaxMethod', "validProject"); 
+  
+  result = await ajaxRequest(formData);
+  showNotification(result.Message, result.Success);
+
+  if(result.Success){
+
+    let checks = $("#checks-container i");
+
+    for(let i = 0; i < checks.length; i++){
+      if(!$(checks[i]).hasClass('validated-icon')){
+        $(checks[i]).addClass('validated-icon');
+        break;
+      }
+    }
+    
+  }
+}
+
 // ---------------------- DONACIONES -----------------------------------------
 async function loadUserDonation(e = false){
   if(e) preventDefault();

@@ -1003,6 +1003,35 @@ div.modal-donate-project{
     }
 }
 
+div.modal-donate-project .project-validacion{
+    padding: .5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--GREY);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.modal-donate-project div.valids{
+    display: flex;
+    justify-content: center;
+}
+div.modal-donate-project .project-validacion i{
+    color: var(--GREY);
+    font-size: 2rem;
+    margin-left: 2rem;
+}
+
+div.modal-donate-project .project-validacion i.validated-icon{
+    color: var(--GREEN);
+}
+
+div.modal-donate-project .project-validacion p.status{
+    font-weight: bold;
+}
+
+
+
 div.modal-donate-project img{
     border-radius: var(--radius);
 }

@@ -5,7 +5,7 @@
     <div class="profile-content">
         <div class="profile-sidebar">
             <div class="user">
-                <p class="icon txt-center"><i class="fa-solid fa-circle-user"></i></p>
+                <p class="icon txt-center"><i class="fa-solid <?php echo $_SESSION['USER']['rol'] === 'mentor' ?"fa-user-tie" : "fa-circle-user";?>"></i></p>
 
                 <div class="user-info">
                     <p class="name"><?php if(isset($_SESSION['USER'])) echo $_SESSION['USER']['name']; ?></p>

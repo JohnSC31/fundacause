@@ -233,6 +233,63 @@
             
         }
 
+        // validacion de un proyecto
+        private function validProject($project){
+            
+            $api = new Api('/proyectosID/' . $project['id'], 'GET');
+            $api->callApi();
+
+            $project = $api->getResult();
+
+            if($api->getStatus() !== 200){
+                $this->ajaxRequestResult(false, "Error al encontrar el proyecto");
+
+            }else if($_SESSION['USER']['rol'] !== 'mentor'){
+                $this->ajaxRequestResult(false, "No eres mentor");
+
+            }elseif(in_array($_SESSION['USER']['email'], $project['validaciones'])){
+                $this->ajaxRequestResult(false, "Ya has validado el proyecto");
+
+            }else{
+
+
+                $mentor = array("idMentor" => $_SESSION['USER']['email']);
+
+                $api = new Api('/agregarValidacion/' . $project['_id'], 'POST', $mentor);
+                $api->callApi();
+
+                $updatedValidations = $api->getResult();
+
+                if($api->getStatus() !== 200 || is_null($updatedValidations)){
+                    $this->ajaxRequestResult(false, "Error al agregar la validacion");
+
+                }else{
+
+                    if(count($updatedValidations) === 3){
+                        // se aprueba el proyecto
+                        $api = new Api('/proyectos/estado/' . $project['_id'], 'PUT');
+                        $api->callApi();
+
+                        if($api->getStatus() !== 200){
+                            // se cambia el estado correctamente
+                            $this->ajaxRequestResult(false, "Error al aprobar el proyecto");
+                            return;
+                        }else{
+                            $this->ajaxRequestResult(true, "Se ha aprobado el proyecto");
+                        }
+
+                    }else{
+                        $this->ajaxRequestResult(true, "Se ha verificado el proyecto");
+                    }
+
+                    
+                }
+
+                    
+                
+            }
+        }
+
         // solicitar una mentoria
         private function requestMentoring($mentorship){
 

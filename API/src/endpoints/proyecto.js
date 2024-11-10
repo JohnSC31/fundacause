@@ -52,7 +52,7 @@ router.post('/agregarValidacion/:id', (req, res) => {
     .then((proyecto) => {
             proyecto.validaciones.push(idMentor);
             proyecto.save()
-            .then(() => res.json({ mensaje: "Validacion agregada" }))
+            .then(() => res.json(proyecto.validaciones))
             .catch((error) => res.json(error));
         
     }
@@ -90,12 +90,12 @@ router.get('/proyectosID/:id', (req, res) => {
 router.put('/proyectos/estado/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        let estado ="Aprobado";
+        let newEstado = "Aprobado";
         console.log(id);
         // Asegurarse de esperar la resolución de la promesa
         const proyectoActualizado = await esquemaProyecto.findByIdAndUpdate(
             id,
-            { $set: { estado: estado } },
+            { $set: { estado: newEstado } },
             { new: true }
         );
 
