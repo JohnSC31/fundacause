@@ -141,6 +141,13 @@ div.user-horizontal-item h2{
     font-size: 7rem;
 }
 
+div.user-horizontal-item h2.desactivated{
+    color: var(--RED);
+}
+div.user-horizontal-item h2.activated{
+    color: var(--GREEN);
+}
+
 div.user-horizontal-item div.profile{
     font-weight: bold;
     padding: 1rem 0;
@@ -160,6 +167,10 @@ div.user-horizontal-item div.action-container button:first-of-type{
 /* ------------ USERS ---------- */
 div.project{
     flex: 0 0 calc(33.3% - 2rem);
+}
+
+div.project p.title{
+    color: var(--BLACK)!important;
 }
 
 @media only screen and (max-width: 768px) {
